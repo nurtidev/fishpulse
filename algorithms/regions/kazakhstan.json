@@ -1,0 +1,79 @@
+{
+  "name": "Kazakhstan",
+  "name_ru": "Казахстан",
+  "name_kz": "Қазақстан",
+  "water_bodies": [
+    {
+      "id": "balkhash",
+      "name": "Lake Balkhash",
+      "name_ru": "Озеро Балхаш",
+      "name_kz": "Балқаш көлі",
+      "lat": 46.5,
+      "lon": 74.5,
+      "type": "lake",
+      "primary_species": ["zander", "perch", "carp", "pike"],
+      "pressure_coefficient": 1.05,
+      "notes": "Largest lake in Kazakhstan. Western part is fresh, eastern is saline. Best fishing: spring and autumn."
+    },
+    {
+      "id": "kapchagai",
+      "name": "Kapchagai Reservoir",
+      "name_ru": "Капчагайское водохранилище",
+      "name_kz": "Қапшағай су қоймасы",
+      "lat": 43.87,
+      "lon": 77.08,
+      "type": "reservoir",
+      "primary_species": ["zander", "carp", "bream", "catfish"],
+      "pressure_coefficient": 1.0,
+      "notes": "Popular fishing spot near Almaty. Warm water supports catfish and carp in summer."
+    },
+    {
+      "id": "irtysh",
+      "name": "Irtysh River",
+      "name_ru": "Река Иртыш",
+      "name_kz": "Ертіс өзені",
+      "lat": 52.28,
+      "lon": 76.97,
+      "type": "river",
+      "primary_species": ["pike", "perch", "bream", "zander"],
+      "pressure_coefficient": 0.95,
+      "notes": "Major river in East Kazakhstan. Cold water favors pike and perch. Best in spring and autumn."
+    },
+    {
+      "id": "ishim_astana",
+      "name": "Ishim River (Astana)",
+      "name_ru": "Река Ишим (Астана)",
+      "name_kz": "Есіл өзені (Астана)",
+      "lat": 51.18,
+      "lon": 71.45,
+      "type": "river",
+      "primary_species": ["pike", "perch", "bream", "carp"],
+      "pressure_coefficient": 1.0,
+      "notes": "Flows through the capital. Urban fishing with pike and perch. Accessible year-round including ice fishing in winter."
+    },
+    {
+      "id": "ural",
+      "name": "Ural River",
+      "name_ru": "Река Урал",
+      "name_kz": "Жайық өзені",
+      "lat": 51.22,
+      "lon": 51.36,
+      "type": "river",
+      "primary_species": ["zander", "bream", "catfish", "carp"],
+      "pressure_coefficient": 1.0,
+      "notes": "One of the best fishing rivers in Western Kazakhstan. Famous for large zander and catfish."
+    },
+    {
+      "id": "bukhtarma",
+      "name": "Bukhtarma Reservoir",
+      "name_ru": "Бухтарминское водохранилище",
+      "name_kz": "Бұқтырма су қоймасы",
+      "lat": 49.0,
+      "lon": 84.5,
+      "type": "reservoir",
+      "primary_species": ["pike", "zander", "perch", "bream"],
+      "pressure_coefficient": 0.92,
+      "notes": "Large mountain reservoir in East Kazakhstan. Cold, clear water. Excellent for pike and zander. High altitude — lower pressure baseline."
+    }
+  ]
+}

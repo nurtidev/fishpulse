@@ -1,0 +1,22 @@
+{
+  "name": "Zander",
+  "name_ru": "Судак",
+  "name_kz": "Судак",
+  "optimal_temp_min": 10,
+  "optimal_temp_max": 18,
+  "season_multipliers": {
+    "jan": 0.50,
+    "feb": 0.55,
+    "mar": 1.10,
+    "apr": 1.30,
+    "may": 0.70,
+    "jun": 0.80,
+    "jul": 0.75,
+    "aug": 0.80,
+    "sep": 1.20,
+    "oct": 1.30,
+    "nov": 1.00,
+    "dec": 0.60
+  },
+  "notes": "Prefers clear, cool water. Hunts at dusk and dawn, avoids bright light. Very active in autumn. Major commercial species in Balkhash, Buktarma, Kapchagai reservoirs."
+}

@@ -1,0 +1,657 @@
+{
+  "lat": 55.7558,
+  "lon": 37.6176,
+  "species": "Pike",
+  "current": {
+    "time": "2026-03-01T22:10:28.744648Z",
+    "index": 68,
+    "label": "Good",
+    "factors": {
+      "solunar": 37.538849965203454,
+      "pressure": 90,
+      "temperature": 20.25,
+      "time_of_day": 45,
+      "wind": 50
+    },
+    "reason": "pressure slowly falling — feeding picking up; water temperature outside optimal range"
+  },
+  "forecast": [
+    {
+      "time": "2026-03-01T23:00:00Z",
+      "index": 60,
+      "label": "Good",
+      "factors": {
+        "solunar": 45.82026025071288,
+        "pressure": 66,
+        "temperature": 20.25,
+        "time_of_day": 25,
+        "wind": 70
+      },
+      "reason": "pressure slowly falling — feeding picking up; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T00:00:00Z",
+      "index": 64,
+      "label": "Good",
+      "factors": {
+        "solunar": 58.338402545813494,
+        "pressure": 66,
+        "temperature": 18.9375,
+        "time_of_day": 25,
+        "wind": 70
+      },
+      "reason": "pressure slowly falling — feeding picking up; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T01:00:00Z",
+      "index": 69,
+      "label": "Good",
+      "factors": {
+        "solunar": 74.2765142087398,
+        "pressure": 66,
+        "temperature": 18.9375,
+        "time_of_day": 25,
+        "wind": 70
+      },
+      "reason": "pressure slowly falling — feeding picking up; solunar minor period; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T02:00:00Z",
+      "index": 79,
+      "label": "Good",
+      "factors": {
+        "solunar": 94.5689343949521,
+        "pressure": 66,
+        "temperature": 17.625,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure slowly falling — feeding picking up; solunar major period active; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T03:00:00Z",
+      "index": 75,
+      "label": "Good",
+      "factors": {
+        "solunar": 83.05284679142332,
+        "pressure": 66,
+        "temperature": 16.3125,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure slowly falling — feeding picking up; solunar major period active; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T04:00:00Z",
+      "index": 73,
+      "label": "Good",
+      "factors": {
+        "solunar": 65.23152655060535,
+        "pressure": 66,
+        "temperature": 15.437500000000002,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure slowly falling — feeding picking up; solunar minor period; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T05:00:00Z",
+      "index": 62,
+      "label": "Good",
+      "factors": {
+        "solunar": 51.23427095475924,
+        "pressure": 49.5,
+        "temperature": 15.437500000000002,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure slowly falling — feeding picking up; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T06:00:00Z",
+      "index": 68,
+      "label": "Good",
+      "factors": {
+        "solunar": 59.04963882448578,
+        "pressure": 49.5,
+        "temperature": 16.3125,
+        "time_of_day": 85,
+        "wind": 70
+      },
+      "reason": "pressure slowly falling — feeding picking up; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T07:00:00Z",
+      "index": 79,
+      "label": "Good",
+      "factors": {
+        "solunar": 74.28369450884755,
+        "pressure": 55,
+        "temperature": 19.812499999999996,
+        "time_of_day": 100,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; solunar minor period; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T08:00:00Z",
+      "index": 68,
+      "label": "Good",
+      "factors": {
+        "solunar": 47.617027842180875,
+        "pressure": 55,
+        "temperature": 22.437499999999996,
+        "time_of_day": 85,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T09:00:00Z",
+      "index": 59,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 25.062499999999996,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T10:00:00Z",
+      "index": 56,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 27.25,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T11:00:00Z",
+      "index": 57,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 28.5625,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T12:00:00Z",
+      "index": 53,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 28.5625,
+        "time_of_day": 25,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1009 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T13:00:00Z",
+      "index": 57,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 28.5625,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1009 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T14:00:00Z",
+      "index": 56,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 25.9375,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T15:00:00Z",
+      "index": 59,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 23.750000000000004,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T16:00:00Z",
+      "index": 69,
+      "label": "Good",
+      "factors": {
+        "solunar": 47.61702784218093,
+        "pressure": 55,
+        "temperature": 22.875,
+        "time_of_day": 85,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T17:00:00Z",
+      "index": 80,
+      "label": "Excellent",
+      "factors": {
+        "solunar": 74.28369450884759,
+        "pressure": 55,
+        "temperature": 21.5625,
+        "time_of_day": 100,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; solunar minor period; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T18:00:00Z",
+      "index": 72,
+      "label": "Good",
+      "factors": {
+        "solunar": 59.049638824485754,
+        "pressure": 55,
+        "temperature": 20.25,
+        "time_of_day": 85,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T19:00:00Z",
+      "index": 59,
+      "label": "Fair",
+      "factors": {
+        "solunar": 32.38297215781908,
+        "pressure": 55,
+        "temperature": 19.812499999999996,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T20:00:00Z",
+      "index": 58,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 20.25,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T21:00:00Z",
+      "index": 54,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 19.812499999999996,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T22:00:00Z",
+      "index": 54,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 55,
+        "temperature": 18.9375,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-02T23:00:00Z",
+      "index": 52,
+      "label": "Fair",
+      "factors": {
+        "solunar": 37.395402402714325,
+        "pressure": 55,
+        "temperature": 18.499999999999996,
+        "time_of_day": 25,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T00:00:00Z",
+      "index": 56,
+      "label": "Fair",
+      "factors": {
+        "solunar": 47.61186485618632,
+        "pressure": 55,
+        "temperature": 18.0625,
+        "time_of_day": 25,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T01:00:00Z",
+      "index": 60,
+      "label": "Good",
+      "factors": {
+        "solunar": 60.61947537418316,
+        "pressure": 55,
+        "temperature": 17.187499999999996,
+        "time_of_day": 25,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; solunar minor period; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T02:00:00Z",
+      "index": 69,
+      "label": "Good",
+      "factors": {
+        "solunar": 77.18077848328032,
+        "pressure": 55,
+        "temperature": 16.75,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; solunar minor period; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T03:00:00Z",
+      "index": 76,
+      "label": "Good",
+      "factors": {
+        "solunar": 98.26664666067268,
+        "pressure": 55,
+        "temperature": 16.75,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1010 hPa; solunar major period active; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T04:00:00Z",
+      "index": 74,
+      "label": "Good",
+      "factors": {
+        "solunar": 79.92762027032168,
+        "pressure": 55,
+        "temperature": 16.75,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1011 hPa; solunar minor period; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T05:00:00Z",
+      "index": 66,
+      "label": "Good",
+      "factors": {
+        "solunar": 62.77690512917741,
+        "pressure": 49.5,
+        "temperature": 16.3125,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1012 hPa; solunar minor period; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T06:00:00Z",
+      "index": 68,
+      "label": "Good",
+      "factors": {
+        "solunar": 60.08407876447599,
+        "pressure": 46.75,
+        "temperature": 15.874999999999998,
+        "time_of_day": 85,
+        "wind": 70
+      },
+      "reason": "pressure rising after storm — fish recovering; solunar minor period; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T07:00:00Z",
+      "index": 75,
+      "label": "Good",
+      "factors": {
+        "solunar": 73.24925456885734,
+        "pressure": 46.75,
+        "temperature": 15.874999999999998,
+        "time_of_day": 100,
+        "wind": 70
+      },
+      "reason": "pressure rising after storm — fish recovering; solunar minor period; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T08:00:00Z",
+      "index": 66,
+      "label": "Good",
+      "factors": {
+        "solunar": 46.582587902190674,
+        "pressure": 46.75,
+        "temperature": 15,
+        "time_of_day": 85,
+        "wind": 90
+      },
+      "reason": "pressure rising after storm — fish recovering; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T09:00:00Z",
+      "index": 56,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 49.5,
+        "temperature": 10,
+        "time_of_day": 65,
+        "wind": 90
+      },
+      "reason": "pressure stable at 1015 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T10:00:00Z",
+      "index": 58,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 67.5,
+        "temperature": 15.437500000000002,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1015 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T11:00:00Z",
+      "index": 61,
+      "label": "Good",
+      "factors": {
+        "solunar": 30,
+        "pressure": 67.5,
+        "temperature": 15.437500000000002,
+        "time_of_day": 45,
+        "wind": 90
+      },
+      "reason": "pressure stable at 1016 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T12:00:00Z",
+      "index": 54,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 67.5,
+        "temperature": 15.437500000000002,
+        "time_of_day": 25,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1016 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T13:00:00Z",
+      "index": 59,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 67.5,
+        "temperature": 10,
+        "time_of_day": 45,
+        "wind": 90
+      },
+      "reason": "pressure stable at 1017 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T14:00:00Z",
+      "index": 57,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 67.5,
+        "temperature": 10,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1017 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T15:00:00Z",
+      "index": 60,
+      "label": "Good",
+      "factors": {
+        "solunar": 30,
+        "pressure": 67.5,
+        "temperature": 10,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1018 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T16:00:00Z",
+      "index": 72,
+      "label": "Good",
+      "factors": {
+        "solunar": 46.58258790219065,
+        "pressure": 67.5,
+        "temperature": 10,
+        "time_of_day": 85,
+        "wind": 90
+      },
+      "reason": "pressure stable at 1018 hPa; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T17:00:00Z",
+      "index": 81,
+      "label": "Excellent",
+      "factors": {
+        "solunar": 73.24925456885732,
+        "pressure": 67.5,
+        "temperature": 10,
+        "time_of_day": 100,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1019 hPa; solunar minor period; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T18:00:00Z",
+      "index": 77,
+      "label": "Good",
+      "factors": {
+        "solunar": 60.084078764476025,
+        "pressure": 67.5,
+        "temperature": 10,
+        "time_of_day": 85,
+        "wind": 90
+      },
+      "reason": "pressure stable at 1020 hPa; solunar minor period; golden hour (sunrise/sunset); water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T19:00:00Z",
+      "index": 62,
+      "label": "Good",
+      "factors": {
+        "solunar": 33.41741209780935,
+        "pressure": 67.5,
+        "temperature": 10,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1020 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T20:00:00Z",
+      "index": 60,
+      "label": "Good",
+      "factors": {
+        "solunar": 30,
+        "pressure": 67.5,
+        "temperature": 10,
+        "time_of_day": 65,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1020 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T21:00:00Z",
+      "index": 59,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 75,
+        "temperature": 10,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1020 hPa; water temperature outside optimal range"
+    },
+    {
+      "time": "2026-03-03T22:00:00Z",
+      "index": 59,
+      "label": "Fair",
+      "factors": {
+        "solunar": 30,
+        "pressure": 75,
+        "temperature": 10,
+        "time_of_day": 45,
+        "wind": 70
+      },
+      "reason": "pressure stable at 1021 hPa; water temperature outside optimal range"
+    }
+  ],
+  "best_window": {
+    "time": "2026-03-03T17:00:00Z",
+    "index": 81,
+    "label": "Excellent",
+    "factors": {
+      "solunar": 73.24925456885732,
+      "pressure": 67.5,
+      "temperature": 10,
+      "time_of_day": 100,
+      "wind": 70
+    },
+    "reason": "pressure stable at 1019 hPa; solunar minor period; golden hour (sunrise/sunset); water temperature outside optimal range"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Catfish",
+  "name_ru": "Сом",
+  "name_kz": "Жайын",
+  "optimal_temp_min": 20,
+  "optimal_temp_max": 28,
+  "season_multipliers": {
+    "jan": 0.10,
+    "feb": 0.10,
+    "mar": 0.25,
+    "apr": 0.50,
+    "may": 0.90,
+    "jun": 1.30,
+    "jul": 1.40,
+    "aug": 1.30,
+    "sep": 1.00,
+    "oct": 0.55,
+    "nov": 0.20,
+    "dec": 0.10
+  },
+  "notes": "Largest predator in Kazakhstan rivers. Strictly warm-water, nearly dormant in winter. Active at night, especially in warm summer nights. Found in Syr Darya, Ili, Ural rivers."
+}

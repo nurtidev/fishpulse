@@ -1,0 +1,22 @@
+{
+  "name": "Carp",
+  "name_ru": "Карп / Сазан",
+  "name_kz": "Табан / Сазан",
+  "optimal_temp_min": 18,
+  "optimal_temp_max": 26,
+  "season_multipliers": {
+    "jan": 0.20,
+    "feb": 0.20,
+    "mar": 0.50,
+    "apr": 0.80,
+    "may": 1.10,
+    "jun": 1.30,
+    "jul": 1.30,
+    "aug": 1.20,
+    "sep": 1.00,
+    "oct": 0.70,
+    "nov": 0.35,
+    "dec": 0.20
+  },
+  "notes": "Warm-water species. Peak activity in summer (Jun-Aug). Nearly inactive in winter. Common in Balkhash, Syr Darya, Ili River."
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Bream",
+  "name_ru": "Лещ",
+  "name_kz": "Дөңмаңдай",
+  "optimal_temp_min": 12,
+  "optimal_temp_max": 20,
+  "season_multipliers": {
+    "jan": 0.30,
+    "feb": 0.35,
+    "mar": 0.90,
+    "apr": 1.20,
+    "may": 1.10,
+    "jun": 0.85,
+    "jul": 0.80,
+    "aug": 0.90,
+    "sep": 1.10,
+    "oct": 1.20,
+    "nov": 0.70,
+    "dec": 0.35
+  },
+  "notes": "Feeds mainly at night and early morning. Pre-spawn (Apr) and autumn are best. Common in Irtysh, Ural River, Bukhtarma reservoir."
+}

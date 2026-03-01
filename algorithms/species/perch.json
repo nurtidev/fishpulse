@@ -1,0 +1,22 @@
+{
+  "name": "Perch",
+  "name_ru": "Окунь",
+  "name_kz": "Алабұға",
+  "optimal_temp_min": 14,
+  "optimal_temp_max": 20,
+  "season_multipliers": {
+    "jan": 0.45,
+    "feb": 0.50,
+    "mar": 1.10,
+    "apr": 1.30,
+    "may": 0.80,
+    "jun": 0.90,
+    "jul": 1.00,
+    "aug": 1.00,
+    "sep": 1.20,
+    "oct": 1.30,
+    "nov": 0.80,
+    "dec": 0.50
+  },
+  "notes": "Active in warmer water than pike. Autumn (Sep-Oct) and spring (Apr) are peak. Highly active at dawn in summer."
+}
