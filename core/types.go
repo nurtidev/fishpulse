@@ -2,6 +2,16 @@ package core
 
 import "time"
 
+// HabitatZone is a named bounding box where a species is commonly found.
+type HabitatZone struct {
+	Name   string  `json:"name"`
+	NameRU string  `json:"name_ru"`
+	LatMin float64 `json:"lat_min"`
+	LatMax float64 `json:"lat_max"`
+	LonMin float64 `json:"lon_min"`
+	LonMax float64 `json:"lon_max"`
+}
+
 // Species represents a fish species configuration.
 type Species struct {
 	Name              string             `json:"name"`
@@ -28,13 +38,21 @@ type BiteFactors struct {
 	Wind        float64 `json:"wind"`
 }
 
+// ReasonCode is a single structured reason with an optional numeric value.
+// The frontend uses the Code for translation; Value is embedded into the message when needed.
+type ReasonCode struct {
+	Code  string  `json:"code"`
+	Value float64 `json:"value,omitempty"`
+}
+
 // BiteResult is the output of a single bite index calculation.
 type BiteResult struct {
-	Time    time.Time   `json:"time"`
-	Index   int         `json:"index"` // 0–100
-	Label   string      `json:"label"` // "Poor", "Fair", "Good", "Excellent"
-	Factors BiteFactors `json:"factors"`
-	Reason  string      `json:"reason"`
+	Time        time.Time    `json:"time"`
+	Index       int          `json:"index"`        // 0–100
+	Label       string       `json:"label"`        // "Poor", "Fair", "Good", "Excellent"
+	Factors     BiteFactors  `json:"factors"`
+	Reason      string       `json:"reason"`       // English fallback
+	ReasonCodes []ReasonCode `json:"reason_codes"` // structured codes for i18n
 }
 
 // ForecastResult holds a full forecast for a location and species.

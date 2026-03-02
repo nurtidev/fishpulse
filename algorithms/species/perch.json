@@ -6,17 +6,59 @@
   "optimal_temp_max": 20,
   "season_multipliers": {
     "jan": 0.45,
-    "feb": 0.50,
-    "mar": 1.10,
-    "apr": 1.30,
-    "may": 0.80,
-    "jun": 0.90,
-    "jul": 1.00,
-    "aug": 1.00,
-    "sep": 1.20,
-    "oct": 1.30,
-    "nov": 0.80,
-    "dec": 0.50
+    "feb": 0.5,
+    "mar": 1.1,
+    "apr": 1.3,
+    "may": 0.8,
+    "jun": 0.9,
+    "jul": 1.0,
+    "aug": 1.0,
+    "sep": 1.2,
+    "oct": 1.3,
+    "nov": 0.8,
+    "dec": 0.5
   },
-  "notes": "Active in warmer water than pike. Autumn (Sep-Oct) and spring (Apr) are peak. Highly active at dawn in summer."
+  "notes": "Active in warmer water than pike. Autumn (Sep-Oct) and spring (Apr) are peak. Highly active at dawn in summer.",
+  "habitat_zones": [
+    {
+      "name": "Ural / Zhayik",
+      "name_ru": "Жайық өзені",
+      "lat_min": 46.0,
+      "lat_max": 52.5,
+      "lon_min": 48.0,
+      "lon_max": 60.0
+    },
+    {
+      "name": "Ishim / Northern KZ",
+      "name_ru": "Есіл өзені",
+      "lat_min": 51.0,
+      "lat_max": 55.5,
+      "lon_min": 60.0,
+      "lon_max": 76.0
+    },
+    {
+      "name": "Syr Darya",
+      "name_ru": "Сырдария",
+      "lat_min": 40.0,
+      "lat_max": 46.0,
+      "lon_min": 59.0,
+      "lon_max": 72.0
+    },
+    {
+      "name": "Balkhash / Ili / Kapchagai",
+      "name_ru": "Балқаш / Іле / Қапшағай",
+      "lat_min": 42.0,
+      "lat_max": 47.5,
+      "lon_min": 72.0,
+      "lon_max": 82.0
+    },
+    {
+      "name": "Irtysh / Bukhtarma",
+      "name_ru": "Ертіс / Бұқтырма",
+      "lat_min": 47.0,
+      "lat_max": 54.0,
+      "lon_min": 79.0,
+      "lon_max": 87.0
+    }
+  ]
 }

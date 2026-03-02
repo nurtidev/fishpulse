@@ -40,12 +40,15 @@ func Calculate(t time.Time, lat, lon float64, weather WeatherSnapshot, species S
 	multiplier := seasonalMultiplier(t, species)
 	index := int(math.Round(math.Min(raw*multiplier, 100)))
 
+	codes := buildReasonCodes(factors, weather)
+
 	return BiteResult{
-		Time:    t,
-		Index:   index,
-		Label:   indexLabel(index),
-		Factors: factors,
-		Reason:  buildReason(factors, weather),
+		Time:        t,
+		Index:       index,
+		Label:       indexLabel(index),
+		Factors:     factors,
+		Reason:      reasonCodesToEnglish(codes, weather.PressureHPa),
+		ReasonCodes: codes,
 	}
 }
 
@@ -111,36 +114,64 @@ func indexLabel(index int) string {
 	}
 }
 
-// buildReason generates a plain-language explanation of the dominant factors.
-func buildReason(f BiteFactors, w WeatherSnapshot) string {
-	var parts []string
+// buildReasonCodes returns structured reason codes for i18n on the frontend.
+func buildReasonCodes(f BiteFactors, w WeatherSnapshot) []ReasonCode {
+	var codes []ReasonCode
 
-	if w.PressureTrend < -3 {
-		parts = append(parts, "pressure dropping fast — fish feeding aggressively before the front")
-	} else if w.PressureTrend < -1 {
-		parts = append(parts, "pressure slowly falling — feeding picking up")
-	} else if w.PressureTrend > 2 {
-		parts = append(parts, "pressure rising after storm — fish recovering")
-	} else {
-		parts = append(parts, fmt.Sprintf("pressure stable at %.0f hPa", w.PressureHPa))
+	switch {
+	case w.PressureTrend < -3:
+		codes = append(codes, ReasonCode{Code: "pressure_drop_fast"})
+	case w.PressureTrend < -1:
+		codes = append(codes, ReasonCode{Code: "pressure_drop_slow"})
+	case w.PressureTrend > 2:
+		codes = append(codes, ReasonCode{Code: "pressure_rising"})
+	default:
+		codes = append(codes, ReasonCode{Code: "pressure_stable", Value: w.PressureHPa})
 	}
 
 	if f.Solunar >= 80 {
-		parts = append(parts, "solunar major period active")
+		codes = append(codes, ReasonCode{Code: "solunar_major"})
 	} else if f.Solunar >= 60 {
-		parts = append(parts, "solunar minor period")
+		codes = append(codes, ReasonCode{Code: "solunar_minor"})
 	}
 
 	if f.TimeOfDay >= 85 {
-		parts = append(parts, "golden hour (sunrise/sunset)")
+		codes = append(codes, ReasonCode{Code: "golden_hour"})
 	}
 
 	if f.Temperature < 40 {
-		parts = append(parts, "water temperature outside optimal range")
+		codes = append(codes, ReasonCode{Code: "temp_suboptimal"})
 	}
 
-	if len(parts) == 0 {
-		return "Average conditions"
+	if len(codes) == 0 {
+		codes = append(codes, ReasonCode{Code: "average_conditions"})
+	}
+
+	return codes
+}
+
+// reasonCodesToEnglish builds an English fallback string from reason codes.
+func reasonCodesToEnglish(codes []ReasonCode, pressureHPa float64) string {
+	msgs := map[string]string{
+		"pressure_drop_fast":  "pressure dropping fast — fish feeding aggressively before the front",
+		"pressure_drop_slow":  "pressure slowly falling — feeding picking up",
+		"pressure_rising":     "pressure rising after storm — fish recovering",
+		"solunar_major":       "solunar major period active",
+		"solunar_minor":       "solunar minor period",
+		"golden_hour":         "golden hour (sunrise/sunset)",
+		"temp_suboptimal":     "water temperature outside optimal range",
+		"average_conditions":  "average conditions",
+	}
+
+	var parts []string
+	for _, c := range codes {
+		if c.Code == "pressure_stable" {
+			parts = append(parts, fmt.Sprintf("pressure stable at %.0f hPa", pressureHPa))
+			continue
+		}
+		if msg, ok := msgs[c.Code]; ok {
+			parts = append(parts, msg)
+		}
 	}
 	return strings.Join(parts, "; ")
 }

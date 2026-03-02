@@ -1,6 +1,7 @@
 {
   "name": "Pike",
   "name_ru": "Щука",
+  "name_kz": "Шортан",
   "optimal_temp_min": 12,
   "optimal_temp_max": 16,
   "season_multipliers": {
@@ -17,5 +18,12 @@
     "nov": 0.9,
     "dec": 0.55
   },
-  "notes": "Pre-spawn (March) and autumn (Sep-Oct) are peak periods. Post-spawn (May-Jun) pike are exhausted and less aggressive."
+  "notes": "Pre-spawn (March) and autumn (Sep-Oct) are peak periods. Post-spawn (May-Jun) pike are exhausted and less aggressive.",
+  "habitat_zones": [
+    { "name": "Ural / Zhayik", "name_ru": "Жайық өзені", "lat_min": 46.0, "lat_max": 52.5, "lon_min": 48.0, "lon_max": 60.0 },
+    { "name": "Ishim / Northern KZ", "name_ru": "Есіл өзені", "lat_min": 51.0, "lat_max": 55.5, "lon_min": 60.0, "lon_max": 76.0 },
+    { "name": "Syr Darya", "name_ru": "Сырдария", "lat_min": 40.0, "lat_max": 46.0, "lon_min": 59.0, "lon_max": 72.0 },
+    { "name": "Balkhash / Ili / Kapchagai", "name_ru": "Балқаш / Іле / Қапшағай", "lat_min": 42.0, "lat_max": 47.5, "lon_min": 72.0, "lon_max": 82.0 },
+    { "name": "Irtysh / Bukhtarma", "name_ru": "Ертіс / Бұқтырма", "lat_min": 47.0, "lat_max": 54.0, "lon_min": 79.0, "lon_max": 87.0 }
+  ]
 }
