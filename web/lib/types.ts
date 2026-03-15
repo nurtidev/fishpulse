@@ -18,6 +18,13 @@ export interface BiteResult {
   factors: BiteFactors;
   reason: string;
   reason_codes: ReasonCode[];
+  solunar_period: "major" | "minor" | "";
+}
+
+export interface SolunarWindow {
+  type: "major" | "minor";
+  start: string; // ISO UTC
+  end: string;   // ISO UTC
 }
 
 export interface ForecastResult {
@@ -27,6 +34,10 @@ export interface ForecastResult {
   current: BiteResult;
   forecast: BiteResult[];
   best_window: BiteResult;
+  daily_rating: number;
+  moon_phase_pct: number;
+  solunar_windows: SolunarWindow[];
+  advice?: string;
 }
 
 export interface HabitatZone {

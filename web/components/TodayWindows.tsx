@@ -12,11 +12,11 @@ interface Window {
   end: string;
   peak: number;
   tier: "excellent" | "good" | "fair";
+  period: "major" | "minor" | "";
 }
 
 function findWindows(forecast: BiteResult[]): Window[] {
-  // Filter to today's hours using LOCAL date (not UTC)
-  const todayStr = new Date().toLocaleDateString("sv"); // "YYYY-MM-DD" in local tz
+  const todayStr = new Date().toLocaleDateString("sv");
   const todayHours = forecast.filter((h) => {
     const localDate = new Date(h.time).toLocaleDateString("sv");
     return localDate === todayStr;
@@ -29,15 +29,20 @@ function findWindows(forecast: BiteResult[]): Window[] {
 
   while (i < todayHours.length) {
     const h = todayHours[i];
-    if (h.index < 55) { i++; continue; }
+    if (h.index < 65) { i++; continue; }
 
-    // Start of a window — find how far it extends
     const start = h.time;
     let peak = h.index;
+    let topPeriod: "major" | "minor" | "" = h.solunar_period;
     let j = i + 1;
 
-    while (j < todayHours.length && todayHours[j].index >= 55) {
+    while (j < todayHours.length && todayHours[j].index >= 65) {
       if (todayHours[j].index > peak) peak = todayHours[j].index;
+      // Prefer major > minor > ""
+      if (topPeriod !== "major") {
+        if (todayHours[j].solunar_period === "major") topPeriod = "major";
+        else if (todayHours[j].solunar_period === "minor" && topPeriod === "") topPeriod = "minor";
+      }
       j++;
     }
 
@@ -45,17 +50,20 @@ function findWindows(forecast: BiteResult[]): Window[] {
     const tier: Window["tier"] =
       peak >= 80 ? "excellent" : peak >= 65 ? "good" : "fair";
 
-    windows.push({ start, end, peak, tier });
+    windows.push({ start, end, peak, tier, period: topPeriod });
     i = j;
   }
 
   return windows;
 }
 
+const USER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString("ru", {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: USER_TZ,
   });
 }
 
@@ -108,8 +116,18 @@ export default function TodayWindows({ forecast }: Props) {
                 </span>
               </div>
 
-              {/* Peak + label */}
-              <div className="flex items-center gap-2 shrink-0">
+              {/* Period + peak + label */}
+              <div className="flex items-center gap-1.5 shrink-0">
+                {w.period === "major" && (
+                  <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-yellow-400/15 text-yellow-400 border border-yellow-400/25 uppercase tracking-wide">
+                    {t.solunarMajor}
+                  </span>
+                )}
+                {w.period === "minor" && (
+                  <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-blue-400/15 text-blue-400 border border-blue-400/25 uppercase tracking-wide">
+                    {t.solunarMinor}
+                  </span>
+                )}
                 <span className="text-xs font-bold text-slate-300">{w.peak}</span>
                 <span
                   className={`text-xs font-medium px-2 py-0.5 rounded-full border ${s.badge}`}

@@ -2,14 +2,25 @@ export type Lang = "ru" | "kz" | "en";
 
 export const translations = {
   ru: {
-    subtitle: "Открытая карта клёва · Кликни на водоём",
-    clickHint: "👆 Кликни на карту, чтобы узнать индекс клёва",
-    emptyStateTitle: "Выберите место для рыбалки",
-    emptyStateDesc: "Кликните на карту или на один из маркеров водоёмов",
+    subtitle: "Открытая платформа клёва · Бесплатно",
+    clickHint: "👆 Найдите водоём чтобы узнать индекс клёва",
+    emptyStateTitle: "Найдите место для рыбалки",
+    emptyStateDesc: "Введите название водоёма или используйте геолокацию",
+    searchPlaceholder: "Поиск водоёма, реки, города...",
+    useMyLocation: "Использовать моё местоположение",
+    popularSpots: "Популярные места",
+    searching: "Поиск...",
+    noResults: "Ничего не найдено",
+    locationError: "Не удалось определить местоположение",
+    back: "Назад",
     speciesLabel: "Вид рыбы",
     forecast48h: "Прогноз на 48 часов",
     bestWindow: "Лучшее время в 48ч",
     todayWindows: "Окна клёва сегодня",
+    dailyRating: "Рейтинг дня",
+    moonPhase: "Фаза луны",
+    solunarMajor: "Мажор",
+    solunarMinor: "Минор",
     factors: "Факторы",
     reason: "Причина",
     loading: "Загрузка...",
@@ -51,16 +62,48 @@ export const translations = {
       temp_suboptimal: "Температура воды вне оптимального диапазона",
       average_conditions: "Средние условия",
     },
+    welcome: {
+      title: "Добро пожаловать в FishPulse",
+      subtitle: "Открытая карта клёва · Бесплатно для каждого рыбака",
+      indexTitle: "Что такое Индекс Клёва?",
+      indexDesc: "Число от 0 до 100, которое показывает насколько хорошо клюёт рыба прямо сейчас. Рассчитывается из 5 факторов:",
+      factors: [
+        { icon: "🌙", label: "Солунар", desc: "Положение луны и солнца · 25%" },
+        { icon: "🌡️", label: "Давление", desc: "Тренд атмосферного давления · 30%" },
+        { icon: "🌊", label: "Температура", desc: "Температура воды · 20%" },
+        { icon: "🌅", label: "Время суток", desc: "Рассвет, закат, полдень · 15%" },
+        { icon: "💨", label: "Ветер", desc: "Скорость и направление · 10%" },
+      ],
+      stepsTitle: "Как пользоваться",
+      steps: [
+        { icon: "🗺️", text: "Нажми на любую точку карты — реку, озеро или море" },
+        { icon: "🐟", text: "Выбери вид рыбы, на которую собираешься" },
+        { icon: "📊", text: "Смотри Индекс Клёва, прогноз на 48 часов и лучшее время" },
+      ],
+      startBtn: "Начать рыбалку",
+      tip: "💡 Нажми на любой фактор в панели чтобы узнать подробнее",
+    },
   },
   kz: {
-    subtitle: "Ашық балық аулау картасы · Нүктені басыңыз",
-    clickHint: "👆 Индексті білу үшін картаны басыңыз",
-    emptyStateTitle: "Балық аулайтын жерді таңдаңыз",
-    emptyStateDesc: "Картаны немесе су қоймасы маркерін басыңыз",
+    subtitle: "Ашық балық аулау платформасы · Тегін",
+    clickHint: "👆 Шабу индексін білу үшін су қоймасын табыңыз",
+    emptyStateTitle: "Балық аулайтын жерді табыңыз",
+    emptyStateDesc: "Су қоймасының атауын енгізіңіз немесе геолокацияны пайдаланыңыз",
+    searchPlaceholder: "Су қоймасы, өзен, қала іздеу...",
+    useMyLocation: "Менің орналасқан жерімді пайдалану",
+    popularSpots: "Танымал орындар",
+    searching: "Іздеу...",
+    noResults: "Ештеңе табылмады",
+    locationError: "Орналасқан жерді анықтау мүмкін болмады",
+    back: "Артқа",
     speciesLabel: "Балық түрі",
     forecast48h: "48 сағаттық болжам",
     bestWindow: "48 сағ. ең жақсы уақыт",
     todayWindows: "Бүгінгі шабу терезелері",
+    dailyRating: "Күн рейтингі",
+    moonPhase: "Ай фазасы",
+    solunarMajor: "Мажор",
+    solunarMinor: "Минор",
     factors: "Факторлар",
     reason: "Себеп",
     loading: "Жүктелуде...",
@@ -102,16 +145,48 @@ export const translations = {
       temp_suboptimal: "Су температурасы оңтайлы диапазоннан тыс",
       average_conditions: "Орташа жағдайлар",
     },
+    welcome: {
+      title: "FishPulse-қа қош келдіңіз",
+      subtitle: "Ашық балық аулау картасы · Әр балықшыға тегін",
+      indexTitle: "Шабу индексі дегеніміз не?",
+      indexDesc: "0-ден 100-ге дейінгі сан, қазір балықтың қаншалықты жақсы шабатынын көрсетеді. 5 фактордан есептеледі:",
+      factors: [
+        { icon: "🌙", label: "Солунар", desc: "Ай мен күннің орны · 25%" },
+        { icon: "🌡️", label: "Қысым", desc: "Атмосфералық қысым тренді · 30%" },
+        { icon: "🌊", label: "Температура", desc: "Су температурасы · 20%" },
+        { icon: "🌅", label: "Тәулік уақыты", desc: "Таң, кеш, түс · 15%" },
+        { icon: "💨", label: "Жел", desc: "Жылдамдық және бағыт · 10%" },
+      ],
+      stepsTitle: "Қалай пайдалану",
+      steps: [
+        { icon: "🗺️", text: "Картадағы кез келген нүктені басыңыз — өзен, көл немесе теңіз" },
+        { icon: "🐟", text: "Аулайтын балық түрін таңдаңыз" },
+        { icon: "📊", text: "Шабу индексін, 48 сағаттық болжамды және ең жақсы уақытты қараңыз" },
+      ],
+      startBtn: "Балық аулауды бастау",
+      tip: "💡 Қосымша ақпарат алу үшін панельдегі кез келген факторды басыңыз",
+    },
   },
   en: {
-    subtitle: "Open fishing intelligence · Click any water body",
-    clickHint: "👆 Click the map to get the bite index",
-    emptyStateTitle: "Choose a fishing spot",
-    emptyStateDesc: "Click anywhere on the map or tap a water body marker",
+    subtitle: "Open fishing intelligence · Free",
+    clickHint: "👆 Find a water body to get the bite index",
+    emptyStateTitle: "Find a fishing spot",
+    emptyStateDesc: "Search for a lake, river or use your location",
+    searchPlaceholder: "Search lake, river, city...",
+    useMyLocation: "Use my location",
+    popularSpots: "Popular spots",
+    searching: "Searching...",
+    noResults: "Nothing found",
+    locationError: "Could not determine your location",
+    back: "Back",
     speciesLabel: "Fish species",
     forecast48h: "48-hour forecast",
     bestWindow: "Best window in 48h",
     todayWindows: "Today's bite windows",
+    dailyRating: "Day rating",
+    moonPhase: "Moon phase",
+    solunarMajor: "Major",
+    solunarMinor: "Minor",
     factors: "Factors",
     reason: "Why",
     loading: "Loading...",
@@ -153,6 +228,27 @@ export const translations = {
       temp_suboptimal: "Water temperature outside optimal range",
       average_conditions: "Average conditions",
     },
+    welcome: {
+      title: "Welcome to FishPulse",
+      subtitle: "Open fishing intelligence · Free for every angler",
+      indexTitle: "What is the Bite Index?",
+      indexDesc: "A score from 0 to 100 showing how well fish are biting right now. Calculated from 5 factors:",
+      factors: [
+        { icon: "🌙", label: "Solunar", desc: "Moon & sun position · 25%" },
+        { icon: "🌡️", label: "Pressure", desc: "Atmospheric pressure trend · 30%" },
+        { icon: "🌊", label: "Temperature", desc: "Water temperature · 20%" },
+        { icon: "🌅", label: "Time of day", desc: "Dawn, dusk, midday · 15%" },
+        { icon: "💨", label: "Wind", desc: "Speed and direction · 10%" },
+      ],
+      stepsTitle: "How to use",
+      steps: [
+        { icon: "🗺️", text: "Tap anywhere on the map — river, lake or sea" },
+        { icon: "🐟", text: "Choose the fish species you're targeting" },
+        { icon: "📊", text: "See the Bite Index, 48-hour forecast and best time window" },
+      ],
+      startBtn: "Start fishing",
+      tip: "💡 Tap any factor in the panel to learn what drives it",
+    },
   },
 } as const;
 
@@ -161,10 +257,21 @@ export type Translations = {
   clickHint: string;
   emptyStateTitle: string;
   emptyStateDesc: string;
+  searchPlaceholder: string;
+  useMyLocation: string;
+  popularSpots: string;
+  searching: string;
+  noResults: string;
+  locationError: string;
+  back: string;
   speciesLabel: string;
   forecast48h: string;
   bestWindow: string;
   todayWindows: string;
+  dailyRating: string;
+  moonPhase: string;
+  solunarMajor: string;
+  solunarMinor: string;
   factors: string;
   reason: string;
   loading: string;
@@ -179,4 +286,15 @@ export type Translations = {
   factorTips: Record<string, string>;
   labels: Record<string, string>;
   reasonCodes: Record<string, string>;
+  welcome: {
+    title: string;
+    subtitle: string;
+    indexTitle: string;
+    indexDesc: string;
+    factors: readonly { icon: string; label: string; desc: string }[];
+    stepsTitle: string;
+    steps: readonly { icon: string; text: string }[];
+    startBtn: string;
+    tip: string;
+  };
 };

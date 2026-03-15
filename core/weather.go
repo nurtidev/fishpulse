@@ -19,6 +19,8 @@ type openMeteoResponse struct {
 	} `json:"hourly"`
 }
 
+var weatherClient = &http.Client{Timeout: 10 * time.Second}
+
 // FetchWeather calls the Open-Meteo API and returns hourly WeatherSnapshot slices
 // for the next 48 hours. No API key required.
 func FetchWeather(lat, lon float64) ([]WeatherSnapshot, error) {
@@ -27,7 +29,7 @@ func FetchWeather(lat, lon float64) ([]WeatherSnapshot, error) {
 		openMeteoURL, lat, lon,
 	)
 
-	resp, err := http.Get(url) //nolint:gosec // URL is constructed from validated coords
+	resp, err := weatherClient.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("weather fetch failed: %w", err)
 	}

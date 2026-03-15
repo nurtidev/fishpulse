@@ -25,7 +25,7 @@ export default function BiteGauge({ index, label }: Props) {
   return (
     <div className="flex flex-col items-center py-4">
       <div
-        className="relative w-40 h-40 rounded-full"
+        className="relative w-32 h-32 md:w-40 md:h-40 rounded-full"
         style={{ filter: `drop-shadow(0 0 18px ${glow})` }}
       >
         <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
@@ -42,7 +42,7 @@ export default function BiteGauge({ index, label }: Props) {
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-5xl font-bold tabular-nums" style={{ color: text }}>
+          <span className="text-4xl md:text-5xl font-bold tabular-nums" style={{ color: text }}>
             {index}
           </span>
           <span className="text-xs text-slate-500 mt-0.5 font-medium">/ 100</span>

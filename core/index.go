@@ -26,7 +26,7 @@ func Calculate(t time.Time, lat, lon float64, weather WeatherSnapshot, species S
 			species.OptimalTempMin,
 			species.OptimalTempMax,
 		),
-		TimeOfDay: timeOfDayScore(t, lat),
+		TimeOfDay: timeOfDayScore(t, lat, lon),
 		Wind:      windScore(weather.WindSpeedMs),
 	}
 
@@ -36,26 +36,29 @@ func Calculate(t time.Time, lat, lon float64, weather WeatherSnapshot, species S
 		factors.TimeOfDay*weightTimeOfDay +
 		factors.Wind*weightWind
 
-	// Apply seasonal multiplier from species config
 	multiplier := seasonalMultiplier(t, species)
 	index := int(math.Round(math.Min(raw*multiplier, 100)))
 
-	codes := buildReasonCodes(factors, weather)
+	period := SolunarPeriodType(t, lat, lon)
+	codes := buildReasonCodes(factors, weather, period)
 
 	return BiteResult{
-		Time:        t,
-		Index:       index,
-		Label:       indexLabel(index),
-		Factors:     factors,
-		Reason:      reasonCodesToEnglish(codes, weather.PressureHPa),
-		ReasonCodes: codes,
+		Time:          t,
+		Index:         index,
+		Label:         indexLabel(index),
+		Factors:       factors,
+		Reason:        reasonCodesToEnglish(codes, weather.PressureHPa),
+		ReasonCodes:   codes,
+		SolunarPeriod: period,
 	}
 }
 
-// timeOfDayScore returns a score based on proximity to sunrise/sunset.
-func timeOfDayScore(t time.Time, lat float64) float64 {
-	sunrise, sunset := sunriseSunset(t, lat)
-	hour := float64(t.Hour()) + float64(t.Minute())/60.0
+// timeOfDayScore returns a score based on proximity to sunrise/sunset,
+// corrected to local solar time using longitude.
+func timeOfDayScore(t time.Time, lat, lon float64) float64 {
+	lt := solarLocalTime(t, lon)
+	sunrise, sunset := sunriseSunset(lt, lat)
+	hour := float64(lt.Hour()) + float64(lt.Minute())/60.0
 
 	distSunrise := math.Abs(hour - sunrise)
 	distSunset := math.Abs(hour - sunset)
@@ -79,21 +82,21 @@ func timeOfDayScore(t time.Time, lat float64) float64 {
 func windScore(ms float64) float64 {
 	switch {
 	case ms >= 3 && ms <= 7:
-		return 90 // ideal: wind moves baitfish, predators follow
+		return 90
 	case ms >= 1 && ms < 3:
 		return 70
 	case ms < 1:
-		return 50 // dead calm: fish cautious, can still feed
+		return 50
 	case ms > 7 && ms <= 12:
 		return 45
 	default:
-		return 15 // storm conditions
+		return 15
 	}
 }
 
 // seasonalMultiplier returns a species-specific seasonal adjustment.
 func seasonalMultiplier(t time.Time, species Species) float64 {
-	month := strings.ToLower(t.Month().String()[:3]) // "jan", "feb", etc.
+	month := strings.ToLower(t.Month().String()[:3])
 	if m, ok := species.SeasonMultipliers[month]; ok {
 		return m
 	}
@@ -115,7 +118,7 @@ func indexLabel(index int) string {
 }
 
 // buildReasonCodes returns structured reason codes for i18n on the frontend.
-func buildReasonCodes(f BiteFactors, w WeatherSnapshot) []ReasonCode {
+func buildReasonCodes(f BiteFactors, w WeatherSnapshot, period string) []ReasonCode {
 	var codes []ReasonCode
 
 	switch {
@@ -129,10 +132,15 @@ func buildReasonCodes(f BiteFactors, w WeatherSnapshot) []ReasonCode {
 		codes = append(codes, ReasonCode{Code: "pressure_stable", Value: w.PressureHPa})
 	}
 
-	if f.Solunar >= 80 {
+	switch period {
+	case "major":
 		codes = append(codes, ReasonCode{Code: "solunar_major"})
-	} else if f.Solunar >= 60 {
+	case "minor":
 		codes = append(codes, ReasonCode{Code: "solunar_minor"})
+	default:
+		if f.Solunar >= 70 {
+			codes = append(codes, ReasonCode{Code: "solunar_minor"})
+		}
 	}
 
 	if f.TimeOfDay >= 85 {
@@ -153,14 +161,14 @@ func buildReasonCodes(f BiteFactors, w WeatherSnapshot) []ReasonCode {
 // reasonCodesToEnglish builds an English fallback string from reason codes.
 func reasonCodesToEnglish(codes []ReasonCode, pressureHPa float64) string {
 	msgs := map[string]string{
-		"pressure_drop_fast":  "pressure dropping fast — fish feeding aggressively before the front",
-		"pressure_drop_slow":  "pressure slowly falling — feeding picking up",
-		"pressure_rising":     "pressure rising after storm — fish recovering",
-		"solunar_major":       "solunar major period active",
-		"solunar_minor":       "solunar minor period",
-		"golden_hour":         "golden hour (sunrise/sunset)",
-		"temp_suboptimal":     "water temperature outside optimal range",
-		"average_conditions":  "average conditions",
+		"pressure_drop_fast": "pressure dropping fast — fish feeding aggressively before the front",
+		"pressure_drop_slow": "pressure slowly falling — feeding picking up",
+		"pressure_rising":    "pressure rising after storm — fish recovering",
+		"solunar_major":      "solunar major period active",
+		"solunar_minor":      "solunar minor period",
+		"golden_hour":        "golden hour (sunrise/sunset)",
+		"temp_suboptimal":    "water temperature outside optimal range",
+		"average_conditions": "average conditions",
 	}
 
 	var parts []string

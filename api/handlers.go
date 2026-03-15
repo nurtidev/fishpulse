@@ -37,10 +37,19 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 	if speciesKey == "" {
 		speciesKey = "pike"
 	}
+	if len(speciesKey) > 50 {
+		errorResponse(w, http.StatusBadRequest, "invalid species parameter")
+		return
+	}
+
+	lang := r.URL.Query().Get("lang")
+	if lang != "ru" && lang != "kz" && lang != "en" {
+		lang = "ru"
+	}
 
 	meta, ok := s.species[speciesKey]
 	if !ok {
-		errorResponse(w, http.StatusBadRequest, "unknown species: "+speciesKey)
+		errorResponse(w, http.StatusBadRequest, "invalid species parameter")
 		return
 	}
 
@@ -62,8 +71,14 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 
 	currentResult := core.Calculate(now, lat, lon, current, meta.Species)
 
+	// Local solar date at the location (for daily rating computation)
+	localOffset := time.Duration(float64(time.Hour) * lon / 15.0)
+	localNow := now.Add(localOffset)
+	todayStr := localNow.Format("2006-01-02")
+
 	var forecast []core.BiteResult
 	var best core.BiteResult
+	dailyRating := 0
 	for _, snap := range snapshots {
 		if snap.Time.Before(now) {
 			continue
@@ -76,16 +91,37 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 		if result.Index > best.Index {
 			best = result
 		}
+		// Track max index for today in local solar time
+		localSnapTime := snap.Time.Add(localOffset)
+		if localSnapTime.Format("2006-01-02") == todayStr && result.Index > dailyRating {
+			dailyRating = result.Index
+		}
 	}
 
-	jsonResponse(w, core.ForecastResult{
-		Lat:        lat,
-		Lon:        lon,
-		Species:    speciesKey,
-		Current:    currentResult,
-		Forecast:   forecast,
-		BestWindow: best,
-	})
+	solunarWindows := core.DaySolunarWindows(now, lat, lon)
+
+	result := core.ForecastResult{
+		Lat:            lat,
+		Lon:            lon,
+		Species:        speciesKey,
+		Current:        currentResult,
+		Forecast:       forecast,
+		BestWindow:     best,
+		DailyRating:    dailyRating,
+		MoonPhasePct:   core.MoonPhaseScore(now),
+		SolunarWindows: solunarWindows,
+	}
+
+	// Localized species name for the AI prompt
+	speciesDisplayName := meta.Name
+	if lang == "ru" {
+		speciesDisplayName = meta.NameRU
+	} else if lang == "kz" {
+		speciesDisplayName = meta.NameKZ
+	}
+	result.Advice = core.GenerateAdvice(result, meta, speciesDisplayName, lang)
+
+	jsonResponse(w, result)
 }
 
 // handleSpecies handles GET /api/v1/species

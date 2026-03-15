@@ -1,12 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import PulsePanel from "@/components/PulsePanel";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LocationSearch from "@/components/LocationSearch";
 import { LangProvider, useLang } from "@/lib/LangContext";
-
-const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 
 interface SelectedLocation {
   lat: number;
@@ -17,7 +15,6 @@ interface SelectedLocation {
 function AppContent() {
   const { t } = useLang();
   const [location, setLocation] = useState<SelectedLocation | null>(null);
-  const [panelOpen, setPanelOpen] = useState(false);
   const [selectedSpecies, setSelectedSpecies] = useState("pike");
 
   // Restore state from URL on mount
@@ -29,14 +26,16 @@ function AppContent() {
     const species = params.get("species");
     if (!isNaN(lat) && !isNaN(lon)) {
       setLocation({ lat, lon, name });
-      setPanelOpen(true);
     }
     if (species) setSelectedSpecies(species);
   }, []);
 
   // Sync URL when location or species changes
   useEffect(() => {
-    if (!location) return;
+    if (!location) {
+      window.history.replaceState({}, "", window.location.pathname);
+      return;
+    }
     const params = new URLSearchParams();
     params.set("lat", location.lat.toFixed(5));
     params.set("lon", location.lon.toFixed(5));
@@ -48,30 +47,35 @@ function AppContent() {
   const handleLocationSelect = useCallback(
     (lat: number, lon: number, name?: string) => {
       setLocation({ lat, lon, name });
-      setPanelOpen(true);
     },
     []
   );
 
-  const handleClose = useCallback(() => {
-    setPanelOpen(false);
+  const handleBack = useCallback(() => {
+    setLocation(null);
     window.history.replaceState({}, "", window.location.pathname);
   }, []);
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-slate-950 text-white overflow-hidden">
+    <div className="min-h-[100dvh] w-screen flex flex-col bg-slate-950 text-white">
       {/* Header */}
-      <header className="flex items-center gap-3 px-4 py-2.5 bg-slate-950 border-b border-slate-800/80 shrink-0 z-10">
+      <header className="flex items-center gap-3 px-4 py-3 bg-slate-950 border-b border-slate-800/80 shrink-0 sticky top-0 z-20">
+        {location ? (
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors mr-1"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="text-sm">{t.back}</span>
+          </button>
+        ) : null}
+
         <div className="flex items-center gap-2 shrink-0">
           <span className="text-xl">🎣</span>
           <span className="font-bold text-white tracking-tight text-sm">FishPulse</span>
         </div>
-
-        <div className="h-4 w-px bg-slate-700 shrink-0" />
-
-        <span className="text-slate-500 text-xs hidden md:block truncate">
-          {t.subtitle}
-        </span>
 
         <div className="ml-auto flex items-center gap-3 shrink-0">
           <LanguageSwitcher />
@@ -90,61 +94,29 @@ function AppContent() {
       </header>
 
       {/* Main */}
-      <main className="flex-1 flex overflow-hidden relative">
-        {/* Map */}
-        <div className="flex-1 relative">
-          <Map onLocationSelect={handleLocationSelect} />
-
-          {/* Empty state */}
-          {!panelOpen && (
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-10">
-              <div className="bg-slate-900/95 backdrop-blur-sm border border-slate-700/60 rounded-2xl px-5 py-4 shadow-2xl text-center min-w-[220px]">
-                <p className="text-lg mb-1">🎣</p>
-                <p className="text-sm font-semibold text-white mb-0.5">{t.emptyStateTitle}</p>
-                <p className="text-xs text-slate-400 leading-relaxed">{t.emptyStateDesc}</p>
-              </div>
+      <main className="flex-1 flex flex-col">
+        {!location ? (
+          /* Search screen */
+          <div className="flex-1 flex flex-col justify-center py-10">
+            <div className="text-center mb-8 px-4">
+              <h1 className="text-2xl font-bold text-white mb-2">{t.emptyStateTitle}</h1>
+              <p className="text-sm text-slate-400">{t.emptyStateDesc}</p>
             </div>
-          )}
-        </div>
-
-        {/* Mobile backdrop */}
-        {panelOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
-            onClick={handleClose}
-          />
-        )}
-
-        {/* Panel — right sidebar on desktop, bottom sheet on mobile */}
-        <div
-          className={[
-            "bg-slate-950 overflow-hidden",
-            // Mobile: fixed bottom sheet
-            "fixed bottom-0 left-0 right-0 z-50 rounded-t-2xl",
-            "border-t border-slate-800/80",
-            // Desktop: static side panel
-            "md:static md:z-auto md:rounded-none md:border-t-0 md:border-l",
-            // Height
-            "h-[72vh] md:h-auto md:self-stretch",
-            // Animation: transform on mobile, width on desktop
-            "transition-transform md:transition-[width]",
-            "duration-300 ease-in-out",
-            panelOpen
-              ? "translate-y-0 md:w-72"
-              : "translate-y-full md:w-0 md:translate-y-0",
-          ].join(" ")}
-        >
-          {location && (
+            <LocationSearch onLocationSelect={handleLocationSelect} />
+          </div>
+        ) : (
+          /* Forecast panel — full width, mobile-first */
+          <div className="flex-1 flex flex-col max-w-lg w-full mx-auto">
             <PulsePanel
               lat={location.lat}
               lon={location.lon}
               locationName={location.name}
               selectedSpecies={selectedSpecies}
               onSpeciesChange={setSelectedSpecies}
-              onClose={handleClose}
+              onClose={handleBack}
             />
-          )}
-        </div>
+          </div>
+        )}
       </main>
     </div>
   );

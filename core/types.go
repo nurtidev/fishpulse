@@ -22,11 +22,11 @@ type Species struct {
 
 // WeatherSnapshot holds the meteorological data for a single point in time.
 type WeatherSnapshot struct {
-	Time            time.Time
-	PressureHPa     float64 // current pressure in hPa
-	PressureTrend   float64 // change in hPa over last 3 hours (negative = falling)
-	AirTempC        float64 // air temperature in Celsius
-	WindSpeedMs     float64 // wind speed in m/s
+	Time          time.Time
+	PressureHPa   float64 // current pressure in hPa
+	PressureTrend float64 // change in hPa over last 3 hours (negative = falling)
+	AirTempC      float64 // air temperature in Celsius
+	WindSpeedMs   float64 // wind speed in m/s
 }
 
 // BiteFactors holds the individual scores (0–100) for each factor.
@@ -47,20 +47,32 @@ type ReasonCode struct {
 
 // BiteResult is the output of a single bite index calculation.
 type BiteResult struct {
-	Time        time.Time    `json:"time"`
-	Index       int          `json:"index"`        // 0–100
-	Label       string       `json:"label"`        // "Poor", "Fair", "Good", "Excellent"
-	Factors     BiteFactors  `json:"factors"`
-	Reason      string       `json:"reason"`       // English fallback
-	ReasonCodes []ReasonCode `json:"reason_codes"` // structured codes for i18n
+	Time          time.Time    `json:"time"`
+	Index         int          `json:"index"` // 0–100
+	Label         string       `json:"label"` // "Poor", "Fair", "Good", "Excellent"
+	Factors       BiteFactors  `json:"factors"`
+	Reason        string       `json:"reason"`         // English fallback
+	ReasonCodes   []ReasonCode `json:"reason_codes"`   // structured codes for i18n
+	SolunarPeriod string       `json:"solunar_period"` // "major", "minor", or ""
+}
+
+// SolunarWindow represents a single solunar activity period with start/end times.
+type SolunarWindow struct {
+	Type  string    `json:"type"`  // "major" or "minor"
+	Start time.Time `json:"start"` // window start (UTC)
+	End   time.Time `json:"end"`   // window end (UTC)
 }
 
 // ForecastResult holds a full forecast for a location and species.
 type ForecastResult struct {
-	Lat        float64      `json:"lat"`
-	Lon        float64      `json:"lon"`
-	Species    string       `json:"species"`
-	Current    BiteResult   `json:"current"`
-	Forecast   []BiteResult `json:"forecast"`    // hourly for 48h
-	BestWindow BiteResult   `json:"best_window"` // peak in the next 48h
+	Lat            float64         `json:"lat"`
+	Lon            float64         `json:"lon"`
+	Species        string          `json:"species"`
+	Current        BiteResult      `json:"current"`
+	Forecast       []BiteResult    `json:"forecast"`        // hourly for 48h
+	BestWindow     BiteResult      `json:"best_window"`     // peak in the next 48h
+	DailyRating    int             `json:"daily_rating"`    // max index for today (like Garmin's day %)
+	MoonPhasePct   float64         `json:"moon_phase_pct"`  // 0–100 moon phase quality score
+	SolunarWindows []SolunarWindow `json:"solunar_windows"` // today's major/minor periods with start/end times
+	Advice         string          `json:"advice,omitempty"` // AI-generated fishing tip (empty if no API key)
 }
