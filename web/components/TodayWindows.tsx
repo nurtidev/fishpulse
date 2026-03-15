@@ -29,14 +29,14 @@ function findWindows(forecast: BiteResult[]): Window[] {
 
   while (i < todayHours.length) {
     const h = todayHours[i];
-    if (h.index < 65) { i++; continue; }
+    if (h.index < 75) { i++; continue; }
 
     const start = h.time;
     let peak = h.index;
     let topPeriod: "major" | "minor" | "" = h.solunar_period;
     let j = i + 1;
 
-    while (j < todayHours.length && todayHours[j].index >= 65) {
+    while (j < todayHours.length && todayHours[j].index >= 75) {
       if (todayHours[j].index > peak) peak = todayHours[j].index;
       // Prefer major > minor > ""
       if (topPeriod !== "major") {
@@ -48,7 +48,7 @@ function findWindows(forecast: BiteResult[]): Window[] {
 
     const end = todayHours[j - 1].time;
     const tier: Window["tier"] =
-      peak >= 80 ? "excellent" : peak >= 65 ? "good" : "fair";
+      peak >= 80 ? "excellent" : peak >= 75 ? "good" : "fair";
 
     windows.push({ start, end, peak, tier, period: topPeriod });
     i = j;
