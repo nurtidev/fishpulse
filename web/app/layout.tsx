@@ -13,8 +13,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FishPulse — Открытая карта клёва",
-  description: "Бесплатный прогноз клёва для любой точки на карте. Open-source fishing intelligence.",
+  metadataBase: new URL("https://fishpulse-production.up.railway.app"),
+  title: {
+    default: "FishPulse — Открытая карта клёва",
+    template: "%s | FishPulse",
+  },
+  description:
+    "Бесплатный прогноз клёва для любой точки на карте. Солнечные и лунные периоды, давление, температура воды. Open-source fishing intelligence.",
+  openGraph: {
+    type: "website",
+    siteName: "FishPulse",
+    title: "FishPulse — Открытая карта клёва",
+    description:
+      "Бесплатный прогноз клёва для любой точки на карте. Солнечные и лунные периоды, давление, температура воды.",
+  },
+  twitter: {
+    card: "summary",
+    title: "FishPulse — Открытая карта клёва",
+    description: "Бесплатный прогноз клёва для любой точки на карте.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

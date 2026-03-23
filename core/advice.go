@@ -3,23 +3,45 @@ package core
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/anthropics/anthropic-sdk-go"
 )
 
+var (
+	anthropicClient     anthropic.Client
+	anthropicClientOnce sync.Once
+	anthropicClientSet  bool
+)
+
+// getAnthropicClient returns a pointer to a shared Anthropic client, initialised once.
+// Returns nil if ANTHROPIC_API_KEY is not set.
+func getAnthropicClient() *anthropic.Client {
+	if os.Getenv("ANTHROPIC_API_KEY") == "" {
+		return nil
+	}
+	anthropicClientOnce.Do(func() {
+		anthropicClient = anthropic.NewClient()
+		anthropicClientSet = true
+	})
+	if !anthropicClientSet {
+		return nil
+	}
+	return &anthropicClient
+}
+
 // GenerateAdvice calls Claude Haiku to produce practical fishing advice with
 // geography/habitat awareness, seasonality context, and condition-based tips.
 // Returns empty string if ANTHROPIC_API_KEY is not set or the call fails.
 func GenerateAdvice(result ForecastResult, meta SpeciesMeta, speciesName string, lang string) string {
-	apiKey := os.Getenv("ANTHROPIC_API_KEY")
-	if apiKey == "" {
+	client := getAnthropicClient()
+	if client == nil {
 		return ""
 	}
-
-	client := anthropic.NewClient()
 
 	langName := map[string]string{
 		"ru": "Russian",
@@ -57,6 +79,7 @@ Respond in %s only. Be direct and concise — no greetings, no filler.`, langNam
 		},
 	})
 	if err != nil {
+		log.Printf("advice generation failed: %v", err)
 		return ""
 	}
 

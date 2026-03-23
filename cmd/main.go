@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -28,7 +29,7 @@ func main() {
 
 	fmt.Printf("FishPulse — fetching weather for (%.4f, %.4f)...\n", lat, lon)
 
-	snapshots, err := core.FetchWeather(lat, lon)
+	snapshots, err := core.FetchWeather(context.Background(), lat, lon)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)

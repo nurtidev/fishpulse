@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/nurtidev/fishpulse/core"
 )
@@ -37,17 +38,17 @@ func (s *Server) routes() {
 }
 
 // defaultOrigins maps APP_ENV to the default list of allowed frontend origins.
+// Production origins should be configured via the ALLOWED_ORIGIN env var.
 var defaultOrigins = map[string][]string{
-	"production":  {"https://fishpulse-production.up.railway.app"},
 	"development": {"http://localhost:3000"},
 }
 
-// Run starts the HTTP server on the given address (e.g. ":8080").
+// Build creates an *http.Server ready to serve, without starting it.
 // CORS origins are resolved in this order:
 //  1. ALLOWED_ORIGIN env var — comma-separated list, e.g. "https://a.com,http://localhost:3000"
 //  2. defaults for APP_ENV (production / development)
 //  3. fallback: http://localhost:3000
-func (s *Server) Run(addr string) error {
+func (s *Server) Build(addr string) *http.Server {
 	var origins []string
 	if raw := os.Getenv("ALLOWED_ORIGIN"); raw != "" {
 		for _, o := range strings.Split(raw, ",") {
@@ -65,9 +66,15 @@ func (s *Server) Run(addr string) error {
 		}
 	}
 	log.Printf("APP_ENV=%q  CORS origins: %v", os.Getenv("APP_ENV"), origins)
-	handler := withLogging(withSecurityHeaders(withCORS(origins, s.mux)))
-	log.Printf("FishPulse API listening on http://localhost%s", addr)
-	return http.ListenAndServe(addr, handler) //nolint:gosec
+	handler := withLogging(withRateLimit(withSecurityHeaders(withCORS(origins, s.mux))))
+	return &http.Server{
+		Addr:              addr,
+		Handler:           handler,
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       10 * time.Second,
+		WriteTimeout:      30 * time.Second,
+		IdleTimeout:       120 * time.Second,
+	}
 }
 
 func keys[V any](m map[string]V) []string {

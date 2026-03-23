@@ -2,7 +2,9 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"sort"
 	"strconv"
 	"time"
 
@@ -53,7 +55,7 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	snapshots, err := core.FetchWeather(lat, lon)
+	snapshots, err := core.FetchWeather(r.Context(), lat, lon)
 	if err != nil {
 		errorResponse(w, http.StatusBadGateway, "weather service unavailable")
 		return
@@ -77,7 +79,7 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 	todayStr := localNow.Format("2006-01-02")
 
 	var forecast []core.BiteResult
-	var best core.BiteResult
+	var best *core.BiteResult
 	dailyRating := 0
 	for _, snap := range snapshots {
 		if snap.Time.Before(now) {
@@ -88,14 +90,19 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 		}
 		result := core.Calculate(snap.Time, lat, lon, snap, meta.Species)
 		forecast = append(forecast, result)
-		if result.Index > best.Index {
-			best = result
+		if best == nil || result.Index > best.Index {
+			r := result
+			best = &r
 		}
 		// Track max index for today in local solar time
 		localSnapTime := snap.Time.Add(localOffset)
 		if localSnapTime.Format("2006-01-02") == todayStr && result.Index > dailyRating {
 			dailyRating = result.Index
 		}
+	}
+
+	if best == nil {
+		best = &currentResult
 	}
 
 	solunarWindows := core.DaySolunarWindows(now, lat, lon)
@@ -106,7 +113,7 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 		Species:        speciesKey,
 		Current:        currentResult,
 		Forecast:       forecast,
-		BestWindow:     best,
+		BestWindow:     *best,
 		DailyRating:    dailyRating,
 		MoonPhasePct:   core.MoonPhaseScore(now),
 		SolunarWindows: solunarWindows,
@@ -147,6 +154,7 @@ func (s *Server) handleSpecies(w http.ResponseWriter, r *http.Request) {
 			HabitatZones: meta.HabitatZones,
 		})
 	}
+	sort.Slice(items, func(i, j int) bool { return items[i].Key < items[j].Key })
 	jsonResponse(w, items)
 }
 
@@ -177,10 +185,6 @@ func parseCoords(r *http.Request) (lat, lon float64, err error) {
 	return lat, lon, nil
 }
 
-func errorf(msg string) error {
-	return &apiError{msg}
+func errorf(format string, args ...any) error {
+	return fmt.Errorf(format, args...)
 }
-
-type apiError struct{ msg string }
-
-func (e *apiError) Error() string { return e.msg }
