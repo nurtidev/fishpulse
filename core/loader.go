@@ -10,14 +10,17 @@ import (
 
 // speciesFile mirrors the JSON structure in algorithms/species/*.json
 type speciesFile struct {
-	Name              string             `json:"name"`
-	NameRU            string             `json:"name_ru"`
-	NameKZ            string             `json:"name_kz"`
-	OptimalTempMin    float64            `json:"optimal_temp_min"`
-	OptimalTempMax    float64            `json:"optimal_temp_max"`
-	SeasonMultipliers map[string]float64 `json:"season_multipliers"`
-	Notes             string             `json:"notes"`
-	HabitatZones      []HabitatZone      `json:"habitat_zones"`
+	Name                string             `json:"name"`
+	NameRU              string             `json:"name_ru"`
+	NameKZ              string             `json:"name_kz"`
+	OptimalTempMin      float64            `json:"optimal_temp_min"`
+	OptimalTempMax      float64            `json:"optimal_temp_max"`
+	OptimalPressureMin  float64            `json:"optimal_pressure_min"`
+	OptimalPressureMax  float64            `json:"optimal_pressure_max"`
+	PressureSensitivity float64            `json:"pressure_sensitivity"`
+	SeasonMultipliers   map[string]float64 `json:"season_multipliers"`
+	Notes               string             `json:"notes"`
+	HabitatZones        []HabitatZone      `json:"habitat_zones"`
 }
 
 // SpeciesMeta extends Species with display names for the API.
@@ -66,12 +69,20 @@ func loadSpeciesFile(path string) (SpeciesMeta, error) {
 		return SpeciesMeta{}, err
 	}
 
+	sensitivity := f.PressureSensitivity
+	if sensitivity == 0 {
+		sensitivity = 1.0
+	}
+
 	return SpeciesMeta{
 		Species: Species{
-			Name:              f.Name,
-			OptimalTempMin:    f.OptimalTempMin,
-			OptimalTempMax:    f.OptimalTempMax,
-			SeasonMultipliers: f.SeasonMultipliers,
+			Name:                f.Name,
+			OptimalTempMin:      f.OptimalTempMin,
+			OptimalTempMax:      f.OptimalTempMax,
+			OptimalPressureMin:  f.OptimalPressureMin,
+			OptimalPressureMax:  f.OptimalPressureMax,
+			PressureSensitivity: sensitivity,
+			SeasonMultipliers:   f.SeasonMultipliers,
 		},
 		NameRU:       f.NameRU,
 		NameKZ:       f.NameKZ,

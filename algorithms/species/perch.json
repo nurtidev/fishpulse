@@ -4,6 +4,9 @@
   "name_kz": "Алабұға",
   "optimal_temp_min": 14,
   "optimal_temp_max": 20,
+  "optimal_pressure_min": 1005,
+  "optimal_pressure_max": 1020,
+  "pressure_sensitivity": 1.0,
   "season_multipliers": {
     "jan": 0.45,
     "feb": 0.5,

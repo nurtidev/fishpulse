@@ -4,6 +4,9 @@
   "name_kz": "Судак",
   "optimal_temp_min": 10,
   "optimal_temp_max": 18,
+  "optimal_pressure_min": 1010,
+  "optimal_pressure_max": 1025,
+  "pressure_sensitivity": 1.2,
   "season_multipliers": {
     "jan": 0.5,
     "feb": 0.55,

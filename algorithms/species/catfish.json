@@ -4,6 +4,9 @@
   "name_kz": "Жайын",
   "optimal_temp_min": 20,
   "optimal_temp_max": 28,
+  "optimal_pressure_min": 998,
+  "optimal_pressure_max": 1015,
+  "pressure_sensitivity": 0.6,
   "season_multipliers": {
     "jan": 0.1,
     "feb": 0.1,

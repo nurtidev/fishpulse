@@ -150,6 +150,36 @@ curl "http://localhost:8080/api/v1/bite?lat=51.18&lon=71.45&species=pike&lang=en
 
 ## Architecture
 
+### Data Flow
+
+```mermaid
+flowchart LR
+    User(["👤 User\n(Browser / Mobile)"])
+    FE["Next.js Frontend\n(port 3000)"]
+    API["Go API Server\n(port 8080)"]
+    OM["Open-Meteo API\n(free, no key)"]
+    OSM["Nominatim / OSM\n(geocoding)"]
+    Claude["Anthropic Claude\n(AI advice, optional)"]
+    Cache[("In-Memory Cache\n48h weather data")]
+    Species[("Species JSON\nalgorithms/species/")]
+
+    User -->|"click location / search"| FE
+    FE -->|"GET /api/v1/bite?lat=&lon=&species="| API
+    FE -->|"GET /api/v1/species"| API
+    FE -->|"geocode search query"| OSM
+
+    API -->|"fetch hourly forecast"| OM
+    OM -->|"pressure, wind, temp (48h)"| Cache
+    Cache -->|"cached snapshots"| API
+    API -->|"load species config"| Species
+    API -->|"generate fishing tip"| Claude
+
+    API -->|"BiteIndex + Forecast + Advice"| FE
+    FE -->|"renders forecast UI"| User
+```
+
+### File Structure
+
 ```
 fishpulse/
 ├── cmd/server/        # Entry point
@@ -157,7 +187,7 @@ fishpulse/
 │   ├── index.go       # Bite Index formula
 │   ├── solunar.go     # Moon/sun position & phase
 │   ├── solunar_periods.go  # Major/minor window computation
-│   ├── pressure.go    # Barometric pressure scoring
+│   ├── pressure.go    # Barometric pressure scoring (species-aware)
 │   ├── temperature.go # Water temp estimation
 │   ├── weather.go     # Open-Meteo API client (cached)
 │   ├── advice.go      # Claude AI integration

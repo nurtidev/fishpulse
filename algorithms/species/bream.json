@@ -4,6 +4,9 @@
   "name_kz": "Дөңмаңдай",
   "optimal_temp_min": 12,
   "optimal_temp_max": 20,
+  "optimal_pressure_min": 1012,
+  "optimal_pressure_max": 1025,
+  "pressure_sensitivity": 1.1,
   "season_multipliers": {
     "jan": 0.3,
     "feb": 0.35,

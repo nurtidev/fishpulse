@@ -14,10 +14,13 @@ type HabitatZone struct {
 
 // Species represents a fish species configuration.
 type Species struct {
-	Name              string             `json:"name"`
-	OptimalTempMin    float64            `json:"optimal_temp_min"`
-	OptimalTempMax    float64            `json:"optimal_temp_max"`
-	SeasonMultipliers map[string]float64 `json:"season_multipliers"` // "jan".."dec"
+	Name                string             `json:"name"`
+	OptimalTempMin      float64            `json:"optimal_temp_min"`
+	OptimalTempMax      float64            `json:"optimal_temp_max"`
+	OptimalPressureMin  float64            `json:"optimal_pressure_min"`
+	OptimalPressureMax  float64            `json:"optimal_pressure_max"`
+	PressureSensitivity float64            `json:"pressure_sensitivity"` // 0.5=low, 1.0=normal, 1.5=high
+	SeasonMultipliers   map[string]float64 `json:"season_multipliers"`   // "jan".."dec"
 }
 
 // WeatherSnapshot holds the meteorological data for a single point in time.

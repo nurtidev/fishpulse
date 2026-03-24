@@ -20,7 +20,7 @@ const (
 func Calculate(t time.Time, lat, lon float64, weather WeatherSnapshot, species Species) BiteResult {
 	factors := BiteFactors{
 		Solunar:     solunarScore(t, lat, lon),
-		Pressure:    pressureScore(weather.PressureHPa, weather.PressureTrend),
+		Pressure:    pressureScore(weather.PressureHPa, weather.PressureTrend, species),
 		Temperature: temperatureScore(
 			waterTempEstimate(weather.AirTempC),
 			species.OptimalTempMin,
