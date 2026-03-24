@@ -54,7 +54,7 @@ export default function LocationSearch({ onLocationSelect }: Props) {
       try {
         const res = await fetch(
           `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=6&accept-language=${lang}`,
-          { headers: { "Accept-Language": lang } }
+          { headers: { "Accept-Language": lang, "User-Agent": "FishPulse/1.0 (https://github.com/nurtidev/fishpulse)" } }
         );
         const data: SearchResult[] = await res.json();
         setResults(data);
@@ -64,6 +64,9 @@ export default function LocationSearch({ onLocationSelect }: Props) {
         setSearching(false);
       }
     }, 450);
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
   }, [query, lang]);
 
   const handleGeolocate = () => {
@@ -84,7 +87,13 @@ export default function LocationSearch({ onLocationSelect }: Props) {
   };
 
   const handleResultClick = (r: SearchResult) => {
-    const name = r.display_name.split(",")[0];
+    const name =
+      r.name ||
+      r.address?.water ||
+      r.address?.lake ||
+      r.address?.river ||
+      r.address?.city ||
+      r.display_name.split(",")[0];
     onLocationSelect(parseFloat(r.lat), parseFloat(r.lon), name);
     setQuery("");
     setResults([]);

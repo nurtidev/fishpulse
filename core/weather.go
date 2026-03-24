@@ -30,7 +30,10 @@ type weatherCacheEntry struct {
 	fetchedAt time.Time
 }
 
-const weatherCacheTTL = 60 * time.Minute
+const (
+	weatherCacheTTL     = 60 * time.Minute
+	weatherCacheMaxSize = 500 // max unique location cells to keep in memory
+)
 
 var (
 	weatherCache   = make(map[string]weatherCacheEntry)
@@ -86,6 +89,15 @@ func FetchWeather(ctx context.Context, lat, lon float64) ([]WeatherSnapshot, err
 	}
 
 	weatherCacheMu.Lock()
+	// Evict expired entries before adding a new one to keep memory bounded.
+	if len(weatherCache) >= weatherCacheMaxSize {
+		now := time.Now()
+		for k, v := range weatherCache {
+			if now.Sub(v.fetchedAt) >= weatherCacheTTL {
+				delete(weatherCache, k)
+			}
+		}
+	}
 	weatherCache[key] = weatherCacheEntry{snapshots: snapshots, fetchedAt: time.Now()}
 	weatherCacheMu.Unlock()
 

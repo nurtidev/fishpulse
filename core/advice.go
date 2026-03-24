@@ -13,25 +13,20 @@ import (
 )
 
 var (
-	anthropicClient     anthropic.Client
+	anthropicClient     *anthropic.Client
 	anthropicClientOnce sync.Once
-	anthropicClientSet  bool
 )
 
-// getAnthropicClient returns a pointer to a shared Anthropic client, initialised once.
+// getAnthropicClient returns a shared Anthropic client, initialised once.
 // Returns nil if ANTHROPIC_API_KEY is not set.
 func getAnthropicClient() *anthropic.Client {
-	if os.Getenv("ANTHROPIC_API_KEY") == "" {
-		return nil
-	}
 	anthropicClientOnce.Do(func() {
-		anthropicClient = anthropic.NewClient()
-		anthropicClientSet = true
+		if os.Getenv("ANTHROPIC_API_KEY") != "" {
+			c := anthropic.NewClient()
+			anthropicClient = &c
+		}
 	})
-	if !anthropicClientSet {
-		return nil
-	}
-	return &anthropicClient
+	return anthropicClient
 }
 
 // GenerateAdvice calls Claude Haiku to produce practical fishing advice with

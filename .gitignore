@@ -32,3 +32,8 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# Playwright
+/web/playwright-report/
+/web/test-results/
+/web/playwright/.cache/

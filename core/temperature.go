@@ -1,13 +1,12 @@
 package core
 
-// waterTempEstimate derives an approximate water surface temperature from air temperature.
-// Water temperature lags air temperature by several days, so we use a smoothed estimate.
-// avgAirTemp7d = average air temperature over the last 7 days.
-func waterTempEstimate(avgAirTemp7d float64) float64 {
-	// Simple linear model: water temp ≈ air temp with a lag damping factor.
-	// In spring/summer water is cooler than air; in autumn it's warmer.
-	// This is a first-order approximation — community can improve with local sensors.
-	return avgAirTemp7d*0.7 + 4.0
+// waterTempEstimate derives an approximate water surface temperature from current air temperature.
+// Water temperature lags air temperature by several days; the 0.7 factor and +4°C offset
+// model this lag as a first-order approximation.
+// airTempC = current air temperature (2 m above ground) from the weather API.
+// NOTE: a 7-day rolling average would improve accuracy — community can improve with local sensors.
+func waterTempEstimate(airTempC float64) float64 {
+	return airTempC*0.7 + 4.0
 }
 
 // temperatureScore returns a score 0–100 for a given water temperature and species.
