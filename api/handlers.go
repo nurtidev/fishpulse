@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"log"
+	"log/slog"
 	"net/http"
 	"sort"
 	"strconv"
@@ -17,7 +17,7 @@ func errorResponse(w http.ResponseWriter, status int, msg string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	if err := json.NewEncoder(w).Encode(map[string]string{"error": msg}); err != nil {
-		log.Printf("errorResponse encode failed: %v", err)
+		slog.Error("errorResponse encode failed", "err", err)
 	}
 }
 
@@ -25,7 +25,7 @@ func errorResponse(w http.ResponseWriter, status int, msg string) {
 func jsonResponse(w http.ResponseWriter, v any) {
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(v); err != nil {
-		log.Printf("jsonResponse encode failed: %v", err)
+		slog.Error("jsonResponse encode failed", "err", err)
 	}
 }
 
@@ -62,6 +62,7 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 
 	snapshots, err := core.FetchWeather(r.Context(), lat, lon)
 	if err != nil {
+		slog.Error("weather fetch failed", "req_id", reqID(r.Context()), "lat", lat, "lon", lon, "err", err)
 		errorResponse(w, http.StatusBadGateway, "weather service unavailable")
 		return
 	}
@@ -132,6 +133,14 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 		speciesDisplayName = meta.NameKZ
 	}
 	result.Advice = core.GenerateAdvice(result, meta, speciesDisplayName, lang)
+
+	slog.Info("bite",
+		"req_id", reqID(r.Context()),
+		"lat", lat, "lon", lon,
+		"species", speciesKey, "lang", lang,
+		"index", currentResult.Index, "label", currentResult.Label,
+		"best", best.Index,
+	)
 
 	jsonResponse(w, result)
 }

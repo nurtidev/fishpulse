@@ -1,12 +1,38 @@
 package api
 
 import (
-	"log"
+	"context"
+	"fmt"
+	"log/slog"
 	"net/http"
+	"strings"
+	"sync/atomic"
 	"time"
 
 	"golang.org/x/time/rate"
 )
+
+type ctxKey string
+
+const reqIDKey ctxKey = "reqID"
+
+var reqCounter atomic.Uint64
+
+// reqID returns the request ID stored in the context, or "-" if absent.
+func reqID(ctx context.Context) string {
+	if id, ok := ctx.Value(reqIDKey).(string); ok {
+		return id
+	}
+	return "-"
+}
+
+// clientIP extracts the real client IP, respecting X-Forwarded-For set by Railway.
+func clientIP(r *http.Request) string {
+	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
+		return strings.TrimSpace(strings.SplitN(xff, ",", 2)[0])
+	}
+	return r.RemoteAddr
+}
 
 // withCORS adds CORS headers so the Next.js frontend can call this API.
 // allowedOrigins is a list of permitted origins; the request Origin is echoed
@@ -49,6 +75,11 @@ func withRateLimit(next http.Handler) http.Handler {
 	limiter := rate.NewLimiter(30, 60)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !limiter.Allow() {
+			slog.Warn("rate limit exceeded",
+				"ip", clientIP(r),
+				"method", r.Method,
+				"path", r.URL.Path,
+			)
 			http.Error(w, `{"error":"rate limit exceeded"}`, http.StatusTooManyRequests)
 			return
 		}
@@ -56,13 +87,31 @@ func withRateLimit(next http.Handler) http.Handler {
 	})
 }
 
-// withLogging logs each request with method, path, and duration.
+// withLogging assigns a request ID and logs method, path, status, duration, IP, and UA.
 func withLogging(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		id := fmt.Sprintf("%06x", reqCounter.Add(1))
+		r = r.WithContext(context.WithValue(r.Context(), reqIDKey, id))
+
 		start := time.Now()
 		rw := &responseWriter{ResponseWriter: w, status: http.StatusOK}
 		next.ServeHTTP(rw, r)
-		log.Printf("%s %s %d %s", r.Method, r.URL.Path, rw.status, time.Since(start))
+
+		ua := r.UserAgent()
+		if len(ua) > 80 {
+			ua = ua[:80] + "…"
+		}
+
+		slog.Info("request",
+			"req_id", id,
+			"method", r.Method,
+			"path", r.URL.Path,
+			"query", r.URL.RawQuery,
+			"status", rw.status,
+			"duration_ms", time.Since(start).Milliseconds(),
+			"ip", clientIP(r),
+			"ua", ua,
+		)
 	})
 }
 
