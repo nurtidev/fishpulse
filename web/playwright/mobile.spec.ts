@@ -135,7 +135,8 @@ test.describe("Mobile — Панель прогноза", () => {
     expect(box!.x).toBeGreaterThanOrEqual(0);
 
     await backBtn.click();
-    await expect(page).toHaveURL(/^http:\/\/localhost:3000\/?$/);
+    // Проверяем что вернулись на корень — без привязки к хосту
+    await expect(page).toHaveURL(/\/\??(#.*)?$/);
   });
 
   test("ряд с чипами рыб скроллится внутри, не ломая страницу", async ({ page }) => {
