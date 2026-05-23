@@ -1,0 +1,51 @@
+{
+  "name": "Asp",
+  "name_ru": "Жерех",
+  "name_kz": "Ақмарқа",
+  "optimal_temp_min": 15,
+  "optimal_temp_max": 22,
+  "optimal_pressure_min": 1008,
+  "optimal_pressure_max": 1022,
+  "pressure_sensitivity": 1.1,
+  "season_multipliers": {
+    "jan": 0.1,
+    "feb": 0.15,
+    "mar": 0.6,
+    "apr": 1.0,
+    "may": 1.25,
+    "jun": 1.2,
+    "jul": 1.1,
+    "aug": 1.15,
+    "sep": 1.2,
+    "oct": 0.85,
+    "nov": 0.35,
+    "dec": 0.15
+  },
+  "notes": "Daytime surface predator of large rivers — the Ishim, Irtysh and Ural. Hunts baitfish in open water; best fished from late spring through early autumn under bright sun.",
+  "habitat_zones": [
+    {
+      "name": "Ishim / Northern KZ",
+      "name_ru": "Есіл өзені",
+      "lat_min": 51.0,
+      "lat_max": 55.5,
+      "lon_min": 60.0,
+      "lon_max": 76.0
+    },
+    {
+      "name": "Irtysh / Bukhtarma",
+      "name_ru": "Ертіс / Бұқтырма",
+      "lat_min": 47.0,
+      "lat_max": 54.0,
+      "lon_min": 79.0,
+      "lon_max": 87.0
+    },
+    {
+      "name": "Ural / Zhayik",
+      "name_ru": "Жайық өзені",
+      "lat_min": 46.0,
+      "lat_max": 52.5,
+      "lon_min": 48.0,
+      "lon_max": 60.0
+    }
+  ]
+}

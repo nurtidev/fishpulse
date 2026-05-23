@@ -47,9 +47,33 @@
       "lat": 51.18,
       "lon": 71.45,
       "type": "river",
-      "primary_species": ["pike", "perch", "bream", "carp"],
+      "primary_species": ["pike", "perch", "bream", "carp", "roach", "ide", "crucian_carp", "burbot"],
       "pressure_coefficient": 1.0,
-      "notes": "Flows through the capital. Urban fishing with pike and perch. Accessible year-round including ice fishing in winter."
+      "notes": "Flows through the capital. Urban fishing with pike, perch, roach and ide. Accessible year-round including ice fishing in winter; burbot active under ice."
+    },
+    {
+      "id": "vyacheslav",
+      "name": "Vyacheslav (Astana) Reservoir",
+      "name_ru": "Вячеславское водохранилище",
+      "name_kz": "Астана су қоймасы",
+      "lat": 51.32,
+      "lon": 71.05,
+      "type": "reservoir",
+      "primary_species": ["pike", "perch", "zander", "bream", "crucian_carp", "roach"],
+      "pressure_coefficient": 1.0,
+      "notes": "Main water reservoir for Astana, ~40 km upstream on the Ishim. Popular weekend fishery in Akmola — pike, perch, zander, and bream. Winter ice fishing is widespread."
+    },
+    {
+      "id": "burabay",
+      "name": "Lake Burabay",
+      "name_ru": "Озеро Бурабай (Боровое)",
+      "name_kz": "Бурабай көлі",
+      "lat": 53.08,
+      "lon": 70.31,
+      "type": "lake",
+      "primary_species": ["pike", "perch", "crucian_carp", "roach", "tench"],
+      "pressure_coefficient": 0.98,
+      "notes": "Resort lake in the Burabay (Borovoye) national park, Akmola region. Clear cool water, granite shorelines. Pike and perch dominate; carassius and tench in weedy bays."
     },
     {
       "id": "ural",

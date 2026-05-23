@@ -19,6 +19,7 @@ type speciesFile struct {
 	OptimalPressureMax  float64            `json:"optimal_pressure_max"`
 	PressureSensitivity float64            `json:"pressure_sensitivity"`
 	SeasonMultipliers   map[string]float64 `json:"season_multipliers"`
+	SpawnClosureMonths  []string           `json:"spawn_closure_months"`
 	Notes               string             `json:"notes"`
 	HabitatZones        []HabitatZone      `json:"habitat_zones"`
 }
@@ -83,6 +84,7 @@ func loadSpeciesFile(path string) (SpeciesMeta, error) {
 			OptimalPressureMax:  f.OptimalPressureMax,
 			PressureSensitivity: sensitivity,
 			SeasonMultipliers:   f.SeasonMultipliers,
+			SpawnClosureMonths:  f.SpawnClosureMonths,
 		},
 		NameRU:       f.NameRU,
 		NameKZ:       f.NameKZ,

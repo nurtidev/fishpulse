@@ -1,0 +1,43 @@
+{
+  "name": "Tench",
+  "name_ru": "Линь",
+  "name_kz": "Көк балық",
+  "optimal_temp_min": 18,
+  "optimal_temp_max": 25,
+  "optimal_pressure_min": 1005,
+  "optimal_pressure_max": 1020,
+  "pressure_sensitivity": 0.6,
+  "season_multipliers": {
+    "jan": 0.1,
+    "feb": 0.1,
+    "mar": 0.25,
+    "apr": 0.6,
+    "may": 1.1,
+    "jun": 1.3,
+    "jul": 1.3,
+    "aug": 1.15,
+    "sep": 0.8,
+    "oct": 0.4,
+    "nov": 0.15,
+    "dec": 0.1
+  },
+  "notes": "Shy, weed-loving fish of warm shallow lakes — found in Akmola steppe lakes and oxbows. Dawn and late evening in summer are prime. Inactive under ice.",
+  "habitat_zones": [
+    {
+      "name": "Akmola / Northern KZ lakes",
+      "name_ru": "Ақмола / Солтүстік Қазақстан көлдері",
+      "lat_min": 50.0,
+      "lat_max": 55.5,
+      "lon_min": 65.0,
+      "lon_max": 76.0
+    },
+    {
+      "name": "Ural / Zhayik",
+      "name_ru": "Жайық өзені",
+      "lat_min": 46.0,
+      "lat_max": 52.5,
+      "lon_min": 48.0,
+      "lon_max": 60.0
+    }
+  ]
+}

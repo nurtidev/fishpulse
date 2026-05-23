@@ -21,15 +21,17 @@ type Species struct {
 	OptimalPressureMax  float64            `json:"optimal_pressure_max"`
 	PressureSensitivity float64            `json:"pressure_sensitivity"` // 0.5=low, 1.0=normal, 1.5=high
 	SeasonMultipliers   map[string]float64 `json:"season_multipliers"`   // "jan".."dec"
+	SpawnClosureMonths  []string           `json:"spawn_closure_months"` // months under regulatory spawning closure (e.g. ["apr"])
 }
 
 // WeatherSnapshot holds the meteorological data for a single point in time.
 type WeatherSnapshot struct {
-	Time          time.Time
-	PressureHPa   float64 // current pressure in hPa
-	PressureTrend float64 // change in hPa over last 3 hours (negative = falling)
-	AirTempC      float64 // air temperature in Celsius
-	WindSpeedMs   float64 // wind speed in m/s
+	Time              time.Time
+	PressureHPa       float64 // current pressure in hPa
+	PressureTrend     float64 // change in hPa over last 3 hours (negative = falling)
+	AirTempC          float64 // air temperature in Celsius
+	RecentAvgAirTempC float64 // rolling mean of air temp over the previous 7 days (proxy for water temp lag)
+	WindSpeedMs       float64 // wind speed in m/s
 }
 
 // BiteFactors holds the individual scores (0–100) for each factor.

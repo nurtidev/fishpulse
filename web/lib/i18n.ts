@@ -61,6 +61,7 @@ export const translations = {
       golden_hour: "Золотой час (рассвет / закат)",
       temp_suboptimal: "Температура воды вне оптимального диапазона",
       average_conditions: "Средние условия",
+      spawn_closure: "Нерестовый запрет — ловля этого вида ограничена",
     },
     welcome: {
       title: "Добро пожаловать в FishPulse",
@@ -144,6 +145,7 @@ export const translations = {
       golden_hour: "Алтын сағат (таң / кеш)",
       temp_suboptimal: "Су температурасы оңтайлы диапазоннан тыс",
       average_conditions: "Орташа жағдайлар",
+      spawn_closure: "Уылдырық шашу тыйымы — бұл түрді аулауға шектеу қойылған",
     },
     welcome: {
       title: "FishPulse-қа қош келдіңіз",
@@ -227,6 +229,7 @@ export const translations = {
       golden_hour: "Golden hour (sunrise / sunset)",
       temp_suboptimal: "Water temperature outside optimal range",
       average_conditions: "Average conditions",
+      spawn_closure: "Spawning closure — fishing for this species is restricted",
     },
     welcome: {
       title: "Welcome to FishPulse",

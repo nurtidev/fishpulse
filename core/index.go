@@ -22,7 +22,7 @@ func Calculate(t time.Time, lat, lon float64, weather WeatherSnapshot, species S
 		Solunar:     solunarScore(t, lat, lon),
 		Pressure:    pressureScore(weather.PressureHPa, weather.PressureTrend, species),
 		Temperature: temperatureScore(
-			waterTempEstimate(weather.AirTempC),
+			waterTempEstimate(weather),
 			species.OptimalTempMin,
 			species.OptimalTempMax,
 		),
@@ -40,7 +40,7 @@ func Calculate(t time.Time, lat, lon float64, weather WeatherSnapshot, species S
 	index := int(math.Round(math.Min(raw*multiplier, 100)))
 
 	period := SolunarPeriodType(t, lat, lon)
-	codes := buildReasonCodes(factors, weather, period)
+	codes := buildReasonCodes(factors, weather, period, t, species)
 
 	return BiteResult{
 		Time:          t,
@@ -95,12 +95,43 @@ func windScore(ms float64) float64 {
 }
 
 // seasonalMultiplier returns a species-specific seasonal adjustment.
+// Each month's value is anchored at day 15 of that month; values between
+// anchors are linearly interpolated. This smooths the boundary so that,
+// e.g., late May (post-spawn pickup) and early May (spawn slump) differ.
 func seasonalMultiplier(t time.Time, species Species) float64 {
-	month := strings.ToLower(t.Month().String()[:3])
-	if m, ok := species.SeasonMultipliers[month]; ok {
-		return m
+	if len(species.SeasonMultipliers) == 0 {
+		return 1.0
 	}
-	return 1.0
+	months := [12]string{"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"}
+	get := func(idx int) float64 {
+		idx = ((idx % 12) + 12) % 12
+		if v, ok := species.SeasonMultipliers[months[idx]]; ok {
+			return v
+		}
+		return 1.0
+	}
+
+	monthIdx := int(t.Month()) - 1
+	day := t.Day()
+	daysInMonth := time.Date(t.Year(), t.Month()+1, 0, 0, 0, 0, 0, t.Location()).Day()
+
+	if day == 15 {
+		return get(monthIdx)
+	}
+
+	var leftIdx int
+	var w float64
+	if day < 15 {
+		// Between mid of previous month and mid of current month (≈30 days apart).
+		leftIdx = monthIdx - 1
+		w = (float64(day) + 15.0) / 30.0
+	} else {
+		// Between mid of current month and mid of next month.
+		leftIdx = monthIdx
+		span := float64(daysInMonth) - 15.0 + 15.0 // distance from day 15 to day 15 of next month
+		w = (float64(day) - 15.0) / span
+	}
+	return get(leftIdx)*(1.0-w) + get(leftIdx+1)*w
 }
 
 // indexLabel converts a numeric index to a human-readable label.
@@ -118,8 +149,12 @@ func indexLabel(index int) string {
 }
 
 // buildReasonCodes returns structured reason codes for i18n on the frontend.
-func buildReasonCodes(f BiteFactors, w WeatherSnapshot, period string) []ReasonCode {
+func buildReasonCodes(f BiteFactors, w WeatherSnapshot, period string, t time.Time, species Species) []ReasonCode {
 	var codes []ReasonCode
+
+	if isSpawnClosure(t, species) {
+		codes = append(codes, ReasonCode{Code: "spawn_closure"})
+	}
 
 	switch {
 	case w.PressureTrend < -3:
@@ -158,6 +193,21 @@ func buildReasonCodes(f BiteFactors, w WeatherSnapshot, period string) []ReasonC
 	return codes
 }
 
+// isSpawnClosure returns true if t falls in a month where the species is under
+// regulatory spawning closure (no-fishing period).
+func isSpawnClosure(t time.Time, species Species) bool {
+	if len(species.SpawnClosureMonths) == 0 {
+		return false
+	}
+	month := strings.ToLower(t.Month().String()[:3])
+	for _, m := range species.SpawnClosureMonths {
+		if strings.ToLower(m) == month {
+			return true
+		}
+	}
+	return false
+}
+
 // reasonCodesToEnglish builds an English fallback string from reason codes.
 func reasonCodesToEnglish(codes []ReasonCode, pressureHPa float64) string {
 	msgs := map[string]string{
@@ -169,6 +219,7 @@ func reasonCodesToEnglish(codes []ReasonCode, pressureHPa float64) string {
 		"golden_hour":        "golden hour (sunrise/sunset)",
 		"temp_suboptimal":    "water temperature outside optimal range",
 		"average_conditions": "average conditions",
+		"spawn_closure":      "spawning closure period — fishing for this species is restricted",
 	}
 
 	var parts []string

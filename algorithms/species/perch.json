@@ -32,6 +32,14 @@
       "lon_max": 60.0
     },
     {
+      "name": "Akmola / Northern KZ lakes",
+      "name_ru": "Ақмола / Солтүстік Қазақстан көлдері",
+      "lat_min": 50.0,
+      "lat_max": 55.5,
+      "lon_min": 65.0,
+      "lon_max": 76.0
+    },
+    {
       "name": "Ishim / Northern KZ",
       "name_ru": "Есіл өзені",
       "lat_min": 51.0,

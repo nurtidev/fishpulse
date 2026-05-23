@@ -59,7 +59,7 @@ func FetchWeather(ctx context.Context, lat, lon float64) ([]WeatherSnapshot, err
 	weatherCacheMu.Unlock()
 
 	url := fmt.Sprintf(
-		"%s?latitude=%.4f&longitude=%.4f&hourly=temperature_2m,pressure_msl,windspeed_10m&forecast_days=3&wind_speed_unit=ms",
+		"%s?latitude=%.4f&longitude=%.4f&hourly=temperature_2m,pressure_msl,windspeed_10m&past_days=7&forecast_days=3&wind_speed_unit=ms",
 		openMeteoURL, lat, lon,
 	)
 
@@ -116,6 +116,12 @@ func buildSnapshots(data openMeteoResponse) ([]WeatherSnapshot, error) {
 		return nil, fmt.Errorf("hourly arrays are empty after length check")
 	}
 
+	// Rolling 7-day mean of air temperature, computed via a running sum over the
+	// previous 168 hourly samples. Used as a proxy for water-temp lag.
+	const window = 168
+	runningSum := 0.0
+	runningN := 0
+
 	snapshots := make([]WeatherSnapshot, 0, n)
 	for i := 0; i < n; i++ {
 		t, err := time.Parse("2006-01-02T15:04", data.Hourly.Time[i])
@@ -129,12 +135,22 @@ func buildSnapshots(data openMeteoResponse) ([]WeatherSnapshot, error) {
 			trend = data.Hourly.PressureMSL[i] - data.Hourly.PressureMSL[i-3]
 		}
 
+		airTemp := data.Hourly.Temperature2m[i]
+		runningSum += airTemp
+		runningN++
+		if i >= window {
+			runningSum -= data.Hourly.Temperature2m[i-window]
+			runningN = window
+		}
+		recentAvg := runningSum / float64(runningN)
+
 		snapshots = append(snapshots, WeatherSnapshot{
-			Time:          t,
-			PressureHPa:   data.Hourly.PressureMSL[i],
-			PressureTrend: trend,
-			AirTempC:      data.Hourly.Temperature2m[i],
-			WindSpeedMs:   data.Hourly.WindSpeed10m[i],
+			Time:              t,
+			PressureHPa:       data.Hourly.PressureMSL[i],
+			PressureTrend:     trend,
+			AirTempC:          airTemp,
+			RecentAvgAirTempC: recentAvg,
+			WindSpeedMs:       data.Hourly.WindSpeed10m[i],
 		})
 	}
 	return snapshots, nil

@@ -27,6 +27,9 @@ const PRESET_SPOTS: PresetSpot[] = [
   { nameRu: "р. Или", nameKz: "Іле өзені", nameEn: "Ili River", lat: 44.010, lon: 77.350, icon: "🎣" },
   { nameRu: "р. Иртыш", nameKz: "Ертіс өзені", nameEn: "Irtysh River", lat: 50.430, lon: 80.260, icon: "🎣" },
   { nameRu: "Зайсан", nameKz: "Зайсан", nameEn: "Zaisan", lat: 47.900, lon: 84.000, icon: "🎣" },
+  { nameRu: "р. Ишим (Астана)", nameKz: "Есіл өзені (Астана)", nameEn: "Ishim (Astana)", lat: 51.180, lon: 71.450, icon: "🎣" },
+  { nameRu: "Вячеславское вдхр.", nameKz: "Астана су қоймасы", nameEn: "Astana Reservoir", lat: 51.320, lon: 71.050, icon: "🎣" },
+  { nameRu: "Бурабай / Боровое", nameKz: "Бурабай", nameEn: "Burabay", lat: 53.080, lon: 70.310, icon: "🎣" },
 ];
 
 interface Props {

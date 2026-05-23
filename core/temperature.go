@@ -1,12 +1,18 @@
 package core
 
-// waterTempEstimate derives an approximate water surface temperature from current air temperature.
-// Water temperature lags air temperature by several days; the 0.7 factor and +4°C offset
-// model this lag as a first-order approximation.
-// airTempC = current air temperature (2 m above ground) from the weather API.
-// NOTE: a 7-day rolling average would improve accuracy — community can improve with local sensors.
-func waterTempEstimate(airTempC float64) float64 {
-	return airTempC*0.7 + 4.0
+// waterTempEstimate derives an approximate water surface temperature from
+// recent air temperature. Water temperature lags air temperature by several
+// days, so we blend the 7-day rolling mean (which captures the lag) with the
+// current air temperature (which captures short-term swings). The +2°C offset
+// accounts for solar gain that warms water above the cool-air mean in summer
+// and the freezing-point floor in winter.
+func waterTempEstimate(w WeatherSnapshot) float64 {
+	avg := w.RecentAvgAirTempC
+	if avg == 0 && w.AirTempC != 0 {
+		// Fallback when the rolling mean hasn't been populated.
+		avg = w.AirTempC
+	}
+	return avg*0.75 + w.AirTempC*0.15 + 2.0
 }
 
 // temperatureScore returns a score 0–100 for a given water temperature and species.
