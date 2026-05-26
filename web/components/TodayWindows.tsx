@@ -5,6 +5,7 @@ import { useLang } from "@/lib/LangContext";
 
 interface Props {
   forecast: BiteResult[];
+  tz: string;
 }
 
 interface Window {
@@ -15,12 +16,15 @@ interface Window {
   period: "major" | "minor" | "";
 }
 
-function findWindows(forecast: BiteResult[]): Window[] {
-  const todayStr = new Date().toLocaleDateString("sv");
-  const todayHours = forecast.filter((h) => {
-    const localDate = new Date(h.time).toLocaleDateString("sv");
-    return localDate === todayStr;
-  });
+// dateInTz returns the YYYY-MM-DD calendar date at the given timezone (sv locale
+// produces ISO-like "2026-05-26").
+function dateInTz(iso: string, tz: string): string {
+  return new Date(iso).toLocaleDateString("sv", { timeZone: tz });
+}
+
+function findWindows(forecast: BiteResult[], tz: string): Window[] {
+  const todayStr = new Date().toLocaleDateString("sv", { timeZone: tz });
+  const todayHours = forecast.filter((h) => dateInTz(h.time, tz) === todayStr);
 
   if (todayHours.length === 0) return [];
 
@@ -57,13 +61,11 @@ function findWindows(forecast: BiteResult[]): Window[] {
   return windows;
 }
 
-const USER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-function formatTime(iso: string) {
+function formatTime(iso: string, tz: string) {
   return new Date(iso).toLocaleTimeString("ru", {
     hour: "2-digit",
     minute: "2-digit",
-    timeZone: USER_TZ,
+    timeZone: tz,
   });
 }
 
@@ -85,9 +87,9 @@ const TIER_STYLES = {
   },
 };
 
-export default function TodayWindows({ forecast }: Props) {
+export default function TodayWindows({ forecast, tz }: Props) {
   const { t } = useLang();
-  const windows = findWindows(forecast);
+  const windows = findWindows(forecast, tz);
 
   if (windows.length === 0) return null;
 
@@ -110,9 +112,9 @@ export default function TodayWindows({ forecast }: Props) {
               {/* Time range */}
               <div className="flex-1 min-w-0">
                 <span className="text-sm font-semibold text-white tabular-nums">
-                  {formatTime(w.start)}
+                  {formatTime(w.start, tz)}
                   <span className="text-slate-500 mx-1.5">—</span>
-                  {formatTime(w.end)}
+                  {formatTime(w.end, tz)}
                 </span>
               </div>
 

@@ -96,6 +96,7 @@ type SolunarWindow struct {
 type ForecastResult struct {
 	Lat            float64         `json:"lat"`
 	Lon            float64         `json:"lon"`
+	LocalTZ        string          `json:"local_tz"`         // IANA timezone of the fishing spot, e.g. "Asia/Almaty"
 	Species        string          `json:"species"`
 	Current        BiteResult      `json:"current"`
 	Forecast       []BiteResult    `json:"forecast"`         // hourly for 48h

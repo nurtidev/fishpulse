@@ -79,10 +79,13 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 
 	currentResult := core.Calculate(now, lat, lon, current, meta.Species)
 
-	// Local solar date at the location (for daily rating computation)
-	localOffset := time.Duration(float64(time.Hour) * lon / 15.0)
-	localNow := now.Add(localOffset)
-	todayStr := localNow.Format("2006-01-02")
+	// Local calendar date at the fishing spot, using its IANA timezone.
+	localTZName := core.LocalTimezone(lat, lon)
+	localLoc, err := time.LoadLocation(localTZName)
+	if err != nil {
+		localLoc = time.UTC
+	}
+	todayStr := now.In(localLoc).Format("2006-01-02")
 
 	var forecast []core.BiteResult
 	var best *core.BiteResult
@@ -100,9 +103,8 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 			r := result
 			best = &r
 		}
-		// Track max index for today in local solar time
-		localSnapTime := snap.Time.Add(localOffset)
-		if localSnapTime.Format("2006-01-02") == todayStr && result.Index > dailyRating {
+		// Track max index for "today" in the spot's IANA timezone.
+		if snap.Time.In(localLoc).Format("2006-01-02") == todayStr && result.Index > dailyRating {
 			dailyRating = result.Index
 		}
 	}
@@ -116,6 +118,7 @@ func (s *Server) handleBite(w http.ResponseWriter, r *http.Request) {
 	result := core.ForecastResult{
 		Lat:            lat,
 		Lon:            lon,
+		LocalTZ:        localTZName,
 		Species:        speciesKey,
 		Current:        currentResult,
 		Forecast:       forecast,

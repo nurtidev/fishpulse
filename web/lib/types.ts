@@ -32,6 +32,7 @@ export interface SolunarWindow {
 export interface ForecastResult {
   lat: number;
   lon: number;
+  local_tz: string; // IANA timezone of the fishing spot, e.g. "Asia/Almaty"
   species: string;
   current: BiteResult;
   forecast: BiteResult[];
@@ -89,6 +90,7 @@ export interface NextItem {
 export interface NowAndNextResult {
   lat: number;
   lon: number;
+  local_tz: string;
   threshold: number;
   now: NowItem[];
   next: NextItem[];

@@ -42,6 +42,7 @@ type nextItem struct {
 type nowAndNextResponse struct {
 	Lat       float64    `json:"lat"`
 	Lon       float64    `json:"lon"`
+	LocalTZ   string     `json:"local_tz"`
 	Threshold int        `json:"threshold"`
 	Now       []nowItem  `json:"now"`
 	Next      []nextItem `json:"next"`
@@ -187,6 +188,7 @@ func (s *Server) handleNowAndNext(w http.ResponseWriter, r *http.Request) {
 	jsonResponse(w, nowAndNextResponse{
 		Lat:       lat,
 		Lon:       lon,
+		LocalTZ:   core.LocalTimezone(lat, lon),
 		Threshold: threshold,
 		Now:       nowList,
 		Next:      nextList,

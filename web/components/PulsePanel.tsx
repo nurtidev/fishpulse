@@ -228,11 +228,13 @@ export default function PulsePanel({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // Use the fishing spot's timezone (from the API), not the user's device — a
+  // user in Moscow looking at Kapchagai needs to see Kapchagai-local times.
+  const spotTz = data?.local_tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const bestTime = data
     ? new Date(data.best_window.time).toLocaleString(lang === "en" ? "en" : "ru", {
-      weekday: "short", hour: "2-digit", minute: "2-digit", timeZone: userTz,
+      weekday: "short", hour: "2-digit", minute: "2-digit", timeZone: spotTz,
     })
     : null;
 
@@ -375,7 +377,7 @@ export default function PulsePanel({
               </div>
             </div>
 
-            {data.forecast.length > 0 && <TodayWindows forecast={data.forecast} />}
+            {data.forecast.length > 0 && <TodayWindows forecast={data.forecast} tz={spotTz} />}
 
             {/* Factors — collapsible */}
             <FactorsAccordion factors={data.current.factors as unknown as Record<string, number>} t={t} />
@@ -385,11 +387,11 @@ export default function PulsePanel({
               <SolunarAccordion
                 windows={data.solunar_windows}
                 lang={lang}
-                userTz={userTz}
+                userTz={spotTz}
               />
             )}
 
-            {data.forecast.length > 0 && <ForecastChart forecast={data.forecast} />}
+            {data.forecast.length > 0 && <ForecastChart forecast={data.forecast} tz={spotTz} />}
           </div>
         )}
       </div>

@@ -20,13 +20,11 @@ function speciesDisplay(
   return item.name_ru;
 }
 
-const USER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-function formatClock(iso: string, lang: string) {
+function formatClock(iso: string, lang: string, tz: string) {
   return new Date(iso).toLocaleTimeString(lang === "en" ? "en" : "ru", {
     hour: "2-digit",
     minute: "2-digit",
-    timeZone: USER_TZ,
+    timeZone: tz,
   });
 }
 
@@ -85,10 +83,11 @@ function NowCard({ item, lang, onClick }: { item: NowItem; lang: string; onClick
   );
 }
 
-function NextCard({ item, lang, t, onClick }: {
+function NextCard({ item, lang, t, tz, onClick }: {
   item: NextItem;
   lang: string;
   t: { inHours: string; inHoursMinutes: string; inMinutes: string };
+  tz: string;
   onClick: () => void;
 }) {
   return (
@@ -119,7 +118,7 @@ function NextCard({ item, lang, t, onClick }: {
         <p className="text-xs text-slate-400 mt-0.5 tabular-nums">
           <span className="text-emerald-400 font-semibold">{formatRelative(item.hours_until, t)}</span>
           <span className="text-slate-600 mx-1.5">·</span>
-          {formatClock(item.window_start, lang)}–{formatClock(item.window_end, lang)}
+          {formatClock(item.window_start, lang, tz)}–{formatClock(item.window_end, lang, tz)}
         </p>
       </div>
     </button>
@@ -208,6 +207,7 @@ export default function NowAndNext({ lat, lon, onSelectSpecies }: Props) {
                 item={item}
                 lang={lang}
                 t={t}
+                tz={data.local_tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone}
                 onClick={() => onSelectSpecies(item.species)}
               />
             ))}
