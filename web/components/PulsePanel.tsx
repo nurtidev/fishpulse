@@ -14,6 +14,7 @@ import { useLang } from "@/lib/LangContext";
 import type { Translations } from "@/lib/i18n";
 import BiteGauge from "./BiteGauge";
 import ForecastChart from "./ForecastChart";
+import NowAndNext from "./NowAndNext";
 import TodayWindows from "./TodayWindows";
 
 import type { SolunarWindow } from "@/lib/types";
@@ -344,6 +345,8 @@ export default function PulsePanel({
                 </p>
               </div>
             </div>
+
+            <NowAndNext lat={lat} lon={lon} onSelectSpecies={onSpeciesChange} />
 
             <BiteGauge index={data.current.index} label={data.current.label} />
 

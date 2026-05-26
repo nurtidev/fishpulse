@@ -15,10 +15,13 @@ const openMeteoURL = "https://api.open-meteo.com/v1/forecast"
 // openMeteoResponse mirrors the relevant fields from the Open-Meteo API.
 type openMeteoResponse struct {
 	Hourly struct {
-		Time          []string  `json:"time"`
-		Temperature2m []float64 `json:"temperature_2m"`
-		PressureMSL   []float64 `json:"pressure_msl"`
-		WindSpeed10m  []float64 `json:"windspeed_10m"`
+		Time             []string  `json:"time"`
+		Temperature2m    []float64 `json:"temperature_2m"`
+		PressureMSL      []float64 `json:"pressure_msl"`
+		WindSpeed10m     []float64 `json:"windspeed_10m"`
+		WindDirection10m []float64 `json:"winddirection_10m"`
+		CloudCover       []float64 `json:"cloudcover"`
+		Precipitation    []float64 `json:"precipitation"`
 	} `json:"hourly"`
 }
 
@@ -59,7 +62,7 @@ func FetchWeather(ctx context.Context, lat, lon float64) ([]WeatherSnapshot, err
 	weatherCacheMu.Unlock()
 
 	url := fmt.Sprintf(
-		"%s?latitude=%.4f&longitude=%.4f&hourly=temperature_2m,pressure_msl,windspeed_10m&past_days=7&forecast_days=3&wind_speed_unit=ms",
+		"%s?latitude=%.4f&longitude=%.4f&hourly=temperature_2m,pressure_msl,windspeed_10m,winddirection_10m,cloudcover,precipitation&past_days=7&forecast_days=3&wind_speed_unit=ms",
 		openMeteoURL, lat, lon,
 	)
 
@@ -104,23 +107,32 @@ func FetchWeather(ctx context.Context, lat, lon float64) ([]WeatherSnapshot, err
 	return snapshots, nil
 }
 
-// buildSnapshots converts raw API data into WeatherSnapshot slices with pressure trend.
+// buildSnapshots converts raw API data into WeatherSnapshot slices with pressure trend
+// and a 6-hour rolling precipitation sum.
 func buildSnapshots(data openMeteoResponse) ([]WeatherSnapshot, error) {
 	n := len(data.Hourly.Time)
 	if n == 0 {
 		return nil, fmt.Errorf("no hourly data in response")
 	}
-	// Guard against inconsistent array lengths from the API.
+	// Guard against inconsistent array lengths from the API; cap at the shortest.
 	n = min(n, len(data.Hourly.Temperature2m), len(data.Hourly.PressureMSL), len(data.Hourly.WindSpeed10m))
+	// Optional fields may be missing in some Open-Meteo configurations — fall back to zero rather than fail.
+	hasWindDir := len(data.Hourly.WindDirection10m) >= n
+	hasCloud := len(data.Hourly.CloudCover) >= n
+	hasPrecip := len(data.Hourly.Precipitation) >= n
 	if n == 0 {
 		return nil, fmt.Errorf("hourly arrays are empty after length check")
 	}
 
 	// Rolling 7-day mean of air temperature, computed via a running sum over the
 	// previous 168 hourly samples. Used as a proxy for water-temp lag.
-	const window = 168
-	runningSum := 0.0
-	runningN := 0
+	const tempWindow = 168
+	tempSum := 0.0
+	tempN := 0
+
+	// Rolling 6-hour sum of precipitation for the recent_precip_mm field.
+	const precipWindow = 6
+	precipSum := 0.0
 
 	snapshots := make([]WeatherSnapshot, 0, n)
 	for i := 0; i < n; i++ {
@@ -136,13 +148,31 @@ func buildSnapshots(data openMeteoResponse) ([]WeatherSnapshot, error) {
 		}
 
 		airTemp := data.Hourly.Temperature2m[i]
-		runningSum += airTemp
-		runningN++
-		if i >= window {
-			runningSum -= data.Hourly.Temperature2m[i-window]
-			runningN = window
+		tempSum += airTemp
+		tempN++
+		if i >= tempWindow {
+			tempSum -= data.Hourly.Temperature2m[i-tempWindow]
+			tempN = tempWindow
 		}
-		recentAvg := runningSum / float64(runningN)
+		recentAvg := tempSum / float64(tempN)
+
+		precip := 0.0
+		if hasPrecip {
+			precip = data.Hourly.Precipitation[i]
+		}
+		precipSum += precip
+		if i >= precipWindow && hasPrecip {
+			precipSum -= data.Hourly.Precipitation[i-precipWindow]
+		}
+
+		windDir := 0.0
+		if hasWindDir {
+			windDir = data.Hourly.WindDirection10m[i]
+		}
+		cloud := 0.0
+		if hasCloud {
+			cloud = data.Hourly.CloudCover[i]
+		}
 
 		snapshots = append(snapshots, WeatherSnapshot{
 			Time:              t,
@@ -151,6 +181,10 @@ func buildSnapshots(data openMeteoResponse) ([]WeatherSnapshot, error) {
 			AirTempC:          airTemp,
 			RecentAvgAirTempC: recentAvg,
 			WindSpeedMs:       data.Hourly.WindSpeed10m[i],
+			WindDirectionDeg:  windDir,
+			CloudCoverPct:     cloud,
+			PrecipitationMM:   precip,
+			RecentPrecipMM:    precipSum,
 		})
 	}
 	return snapshots, nil

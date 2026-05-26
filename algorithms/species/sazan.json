@@ -1,0 +1,63 @@
+{
+  "name": "Sazan",
+  "name_ru": "Сазан",
+  "name_kz": "Сазан",
+  "optimal_temp_min": 18,
+  "optimal_temp_max": 26,
+  "optimal_pressure_min": 1005,
+  "optimal_pressure_max": 1022,
+  "pressure_sensitivity": 0.7,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "crepuscular",
+  "prefers_overcast": false,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 0.7,
+  "water_body_affinity": "river",
+  "season_multipliers": {
+    "jan": 0.15,
+    "feb": 0.15,
+    "mar": 0.45,
+    "apr": 0.9,
+    "may": 1.2,
+    "jun": 1.3,
+    "jul": 1.3,
+    "aug": 1.25,
+    "sep": 1.05,
+    "oct": 0.7,
+    "nov": 0.3,
+    "dec": 0.15
+  },
+  "spawn_closure_months": ["may"],
+  "spawn_biological": {
+    "start": "05-25",
+    "end": "06-20",
+    "post_spawn_bonus_days": 10
+  },
+  "notes": "Wild Cyprinus carpio of large southern rivers — Syr Darya, Ural, Ili. Powerful, migratory, fights hard on current. Responds strongly to water-level rises after upstream rains. More tolerant of muddy spates than its domestic cousin (carp). Peak from late May through August.",
+  "habitat_zones": [
+    {
+      "name": "Syr Darya",
+      "name_ru": "Сырдария",
+      "lat_min": 40.0,
+      "lat_max": 46.0,
+      "lon_min": 59.0,
+      "lon_max": 72.0
+    },
+    {
+      "name": "Ural (southern)",
+      "name_ru": "Жайық (оңтүстік)",
+      "lat_min": 46.0,
+      "lat_max": 50.0,
+      "lon_min": 50.0,
+      "lon_max": 57.0
+    },
+    {
+      "name": "Ili / Kapchagai",
+      "name_ru": "Іле / Қапшағай",
+      "lat_min": 43.0,
+      "lat_max": 46.0,
+      "lon_min": 75.0,
+      "lon_max": 80.0
+    }
+  ]
+}

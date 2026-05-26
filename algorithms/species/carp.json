@@ -1,12 +1,18 @@
 {
   "name": "Carp",
-  "name_ru": "Карп / Сазан",
-  "name_kz": "Табан / Сазан",
+  "name_ru": "Карп",
+  "name_kz": "Табан",
   "optimal_temp_min": 18,
   "optimal_temp_max": 26,
   "optimal_pressure_min": 1005,
   "optimal_pressure_max": 1022,
   "pressure_sensitivity": 0.7,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "crepuscular",
+  "prefers_overcast": false,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 0.8,
+  "water_body_affinity": "reservoir",
   "season_multipliers": {
     "jan": 0.2,
     "feb": 0.2,
@@ -21,7 +27,13 @@
     "nov": 0.35,
     "dec": 0.2
   },
-  "notes": "Warm-water species. Peak activity in summer (Jun-Aug). Nearly inactive in winter. Common in Balkhash, Syr Darya, Ili River.",
+  "spawn_closure_months": ["may"],
+  "spawn_biological": {
+    "start": "05-20",
+    "end": "06-15",
+    "post_spawn_bonus_days": 10
+  },
+  "notes": "Cultivated warm-water cyprinid common in Kapchagai, Vyacheslav reservoir and stocked ponds. Peak activity in summer (Jun-Aug). Nearly inactive in winter. Tolerates moderate turbidity well. For wild Cyprinus carpio in southern rivers (Syr Darya, Ili) see 'sazan'.",
   "habitat_zones": [
     {
       "name": "Ural (southern)",
@@ -32,20 +44,20 @@
       "lon_max": 57.0
     },
     {
-      "name": "Syr Darya",
-      "name_ru": "Сырдария",
-      "lat_min": 40.0,
-      "lat_max": 46.0,
-      "lon_min": 59.0,
-      "lon_max": 72.0
-    },
-    {
       "name": "Balkhash / Ili / Kapchagai",
       "name_ru": "Балқаш / Іле / Қапшағай",
       "lat_min": 42.0,
       "lat_max": 47.5,
       "lon_min": 72.0,
       "lon_max": 82.0
+    },
+    {
+      "name": "Akmola / Northern KZ reservoirs",
+      "name_ru": "Ақмола су қоймалары",
+      "lat_min": 50.0,
+      "lat_max": 55.5,
+      "lon_min": 65.0,
+      "lon_max": 76.0
     }
   ]
 }

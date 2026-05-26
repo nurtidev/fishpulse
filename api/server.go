@@ -35,6 +35,7 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("GET /health", handleHealth)
 	s.mux.HandleFunc("GET /api/v1/bite", s.handleBite)
 	s.mux.HandleFunc("GET /api/v1/species", s.handleSpecies)
+	s.mux.HandleFunc("GET /api/v1/now-and-next", s.handleNowAndNext)
 }
 
 // defaultOrigins maps APP_ENV to the default list of allowed frontend origins.

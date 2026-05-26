@@ -7,6 +7,12 @@
   "optimal_pressure_min": 1008,
   "optimal_pressure_max": 1022,
   "pressure_sensitivity": 1.0,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "diurnal",
+  "prefers_overcast": false,
+  "prefers_sun": true,
+  "turbidity_sensitivity": 1.1,
+  "water_body_affinity": "river",
   "season_multipliers": {
     "jan": 0.3,
     "feb": 0.35,
@@ -21,7 +27,13 @@
     "nov": 0.55,
     "dec": 0.3
   },
-  "notes": "River cyprinid common in the Ishim and Irtysh basins. Strong feeder in spring around spawning (April) and again in early autumn. Likes moving water below riffles.",
+  "spawn_closure_months": ["apr"],
+  "spawn_biological": {
+    "start": "04-05",
+    "end": "04-25",
+    "post_spawn_bonus_days": 10
+  },
+  "notes": "River cyprinid common in the Ishim and Irtysh basins. Daytime visual feeder. Strong feeder in spring around spawning (April) and again in early autumn. Likes moving water below riffles in sunny weather.",
   "habitat_zones": [
     {
       "name": "Ishim / Northern KZ",

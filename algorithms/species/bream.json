@@ -7,6 +7,12 @@
   "optimal_pressure_min": 1012,
   "optimal_pressure_max": 1025,
   "pressure_sensitivity": 1.1,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "nocturnal",
+  "prefers_overcast": false,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 1.4,
+  "water_body_affinity": "river",
   "season_multipliers": {
     "jan": 0.3,
     "feb": 0.35,
@@ -21,7 +27,13 @@
     "nov": 0.7,
     "dec": 0.35
   },
-  "notes": "Feeds mainly at night and early morning. Pre-spawn (Apr) and autumn are best. Common in Irtysh, Ural River, Bukhtarma reservoir.",
+  "spawn_closure_months": ["may"],
+  "spawn_biological": {
+    "start": "05-10",
+    "end": "06-05",
+    "post_spawn_bonus_days": 10
+  },
+  "notes": "Feeds mainly at night and early morning. Sensitive to turbidity — heavy rain spikes shut the bite down. Pre-spawn (Apr) and autumn are best. Common in Irtysh, Ural River, Bukhtarma reservoir.",
   "habitat_zones": [
     {
       "name": "Ural / Zhayik",

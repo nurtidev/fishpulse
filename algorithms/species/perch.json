@@ -7,6 +7,12 @@
   "optimal_pressure_min": 1005,
   "optimal_pressure_max": 1020,
   "pressure_sensitivity": 1.0,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "diurnal",
+  "prefers_overcast": true,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 1.2,
+  "water_body_affinity": "any",
   "season_multipliers": {
     "jan": 0.45,
     "feb": 0.5,
@@ -21,7 +27,13 @@
     "nov": 0.8,
     "dec": 0.5
   },
-  "notes": "Active in warmer water than pike. Autumn (Sep-Oct) and spring (Apr) are peak. Highly active at dawn in summer.",
+  "spawn_closure_months": ["apr"],
+  "spawn_biological": {
+    "start": "03-25",
+    "end": "04-20",
+    "post_spawn_bonus_days": 10
+  },
+  "notes": "Daytime schooling predator, active in warmer water than pike. Autumn (Sep-Oct) and spring (Apr) are peak. Highly active at dawn in summer; tolerates overcast conditions well.",
   "habitat_zones": [
     {
       "name": "Ural / Zhayik",

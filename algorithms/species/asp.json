@@ -7,6 +7,12 @@
   "optimal_pressure_min": 1008,
   "optimal_pressure_max": 1022,
   "pressure_sensitivity": 1.1,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "diurnal",
+  "prefers_overcast": false,
+  "prefers_sun": true,
+  "turbidity_sensitivity": 1.4,
+  "water_body_affinity": "river",
   "season_multipliers": {
     "jan": 0.1,
     "feb": 0.15,
@@ -21,7 +27,13 @@
     "nov": 0.35,
     "dec": 0.15
   },
-  "notes": "Daytime surface predator of large rivers — the Ishim, Irtysh and Ural. Hunts baitfish in open water; best fished from late spring through early autumn under bright sun.",
+  "spawn_closure_months": ["apr"],
+  "spawn_biological": {
+    "start": "04-10",
+    "end": "05-05",
+    "post_spawn_bonus_days": 10
+  },
+  "notes": "Daytime surface predator of large rivers — the Ishim, Irtysh and Ural. Visual hunter: prefers bright sun for spotting baitfish. Very sensitive to muddy water — heavy rain on the upstream is a bite-killer.",
   "habitat_zones": [
     {
       "name": "Ishim / Northern KZ",

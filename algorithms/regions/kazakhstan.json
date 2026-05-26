@@ -23,7 +23,7 @@
       "lat": 43.87,
       "lon": 77.08,
       "type": "reservoir",
-      "primary_species": ["zander", "carp", "bream", "catfish"],
+      "primary_species": ["zander", "carp", "sazan", "bream", "catfish"],
       "pressure_coefficient": 1.0,
       "notes": "Popular fishing spot near Almaty. Warm water supports catfish and carp in summer."
     },

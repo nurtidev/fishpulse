@@ -149,8 +149,10 @@ SEASON (%s):
 CURRENT CONDITIONS (%s %s UTC, Bite Index %d/100 — %s):
   Pressure: %d/100 — %s
   Solunar:  %d/100 — %s
-  Time of day: %d/100
-  Wind:     %d/100
+  Time of day:   %d/100
+  Wind:          %d/100 (speed and S/E vs N/NW direction)
+  Clouds:        %d/100 (light regime — ambush vs sight predators)
+  Precipitation: %d/100 (rain trigger / turbidity)
   Daily rating (max today): %d%%
 
 UPCOMING:
@@ -171,6 +173,8 @@ UPCOMING:
 		int(r.Current.Factors.Solunar), solunarPeriodLabel(r.Current.SolunarPeriod),
 		int(r.Current.Factors.TimeOfDay),
 		int(r.Current.Factors.Wind),
+		int(r.Current.Factors.Clouds),
+		int(r.Current.Factors.Precipitation),
 		r.DailyRating,
 		r.BestWindow.Time.Add(localOffset).Format("Mon 15:04"), r.BestWindow.Index,
 		solunarStr,

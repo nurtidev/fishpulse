@@ -4,6 +4,8 @@ export interface BiteFactors {
   temperature: number;
   time_of_day: number;
   wind: number;
+  clouds: number;
+  precipitation: number;
 }
 
 export interface ReasonCode {
@@ -56,4 +58,38 @@ export interface SpeciesItem {
   name_kz: string;
   notes: string;
   habitat_zones?: HabitatZone[];
+}
+
+export interface NowItem {
+  species: string;
+  name: string;
+  name_ru: string;
+  name_kz: string;
+  index: number;
+  label: BiteResult["label"];
+  solunar_period: "major" | "minor" | "";
+  reason_codes: ReasonCode[];
+  hint: string;
+}
+
+export interface NextItem {
+  species: string;
+  name: string;
+  name_ru: string;
+  name_kz: string;
+  window_start: string;
+  window_end: string;
+  peak_index: number;
+  peak_at: string;
+  hours_until: number;
+  solunar_period: "major" | "minor" | "";
+  hint: string;
+}
+
+export interface NowAndNextResult {
+  lat: number;
+  lon: number;
+  threshold: number;
+  now: NowItem[];
+  next: NextItem[];
 }

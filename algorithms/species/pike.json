@@ -3,10 +3,16 @@
   "name_ru": "Щука",
   "name_kz": "Шортан",
   "optimal_temp_min": 12,
-  "optimal_temp_max": 16,
+  "optimal_temp_max": 19,
   "optimal_pressure_min": 1010,
   "optimal_pressure_max": 1025,
   "pressure_sensitivity": 1.3,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "crepuscular",
+  "prefers_overcast": true,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 1.0,
+  "water_body_affinity": "any",
   "season_multipliers": {
     "jan": 0.55,
     "feb": 0.6,
@@ -22,7 +28,12 @@
     "dec": 0.9
   },
   "spawn_closure_months": ["apr"],
-  "notes": "Pre-spawn (March) and autumn (Sep-Oct) are peak periods. Mid-to-late May shows a post-spawn feeding burst; June-July slow down in the heat. First and last ice (Nov-Dec, Mar) are top jerlitsa windows in Northern Kazakhstan. April typically falls under the spawning closure.",
+  "spawn_biological": {
+    "start": "03-25",
+    "end": "04-15",
+    "post_spawn_bonus_days": 12
+  },
+  "notes": "Pre-spawn (March) and autumn (Sep-Oct) are peak periods. Ambush predator — prefers overcast skies. Mid-to-late April brings a post-spawn feeding burst; June-July slow down in the heat. First and last ice (Nov-Dec, Mar) are top jerlitsa windows in Northern Kazakhstan. April typically falls under the spawning closure.",
   "habitat_zones": [
     { "name": "Ural / Zhayik", "name_ru": "Жайық өзені", "lat_min": 46.0, "lat_max": 52.5, "lon_min": 48.0, "lon_max": 60.0 },
     { "name": "Akmola / Northern KZ lakes", "name_ru": "Ақмола / Солтүстік Қазақстан көлдері", "lat_min": 50.0, "lat_max": 55.5, "lon_min": 65.0, "lon_max": 76.0 },

@@ -7,6 +7,12 @@
   "optimal_pressure_min": 1005,
   "optimal_pressure_max": 1020,
   "pressure_sensitivity": 0.6,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "crepuscular",
+  "prefers_overcast": false,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 0.7,
+  "water_body_affinity": "lake",
   "season_multipliers": {
     "jan": 0.1,
     "feb": 0.1,
@@ -21,7 +27,13 @@
     "nov": 0.15,
     "dec": 0.1
   },
-  "notes": "Shy, weed-loving fish of warm shallow lakes — found in Akmola steppe lakes and oxbows. Dawn and late evening in summer are prime. Inactive under ice.",
+  "spawn_closure_months": ["may", "jun"],
+  "spawn_biological": {
+    "start": "05-25",
+    "end": "06-20",
+    "post_spawn_bonus_days": 7
+  },
+  "notes": "Shy, weed-loving fish of warm shallow lakes — found in Akmola steppe lakes and oxbows. Dawn and late evening in summer are prime. Inactive under ice. Tolerates low oxygen and turbid water well.",
   "habitat_zones": [
     {
       "name": "Akmola / Northern KZ lakes",

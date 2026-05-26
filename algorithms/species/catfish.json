@@ -7,6 +7,12 @@
   "optimal_pressure_min": 998,
   "optimal_pressure_max": 1015,
   "pressure_sensitivity": 0.6,
+  "prefers_low_pressure": true,
+  "time_of_day_preference": "nocturnal",
+  "prefers_overcast": false,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 0.6,
+  "water_body_affinity": "river",
   "season_multipliers": {
     "jan": 0.1,
     "feb": 0.1,
@@ -21,7 +27,13 @@
     "nov": 0.2,
     "dec": 0.1
   },
-  "notes": "Largest predator in Kazakhstan rivers. Strictly warm-water, nearly dormant in winter. Active at night, especially in warm summer nights. Found in Syr Darya, Ili, Ural rivers.",
+  "spawn_closure_months": ["jun"],
+  "spawn_biological": {
+    "start": "06-01",
+    "end": "06-25",
+    "post_spawn_bonus_days": 10
+  },
+  "notes": "Largest predator in Kazakhstan rivers. Strictly warm-water, nearly dormant in winter. Hunts by smell and lateral line — tolerates muddy spates well, even thrives on them. Active at night, especially in warm summer nights. Found in Syr Darya, Ili, Ural rivers. Avoids stable high pressure.",
   "habitat_zones": [
     {
       "name": "Ural (southern)",

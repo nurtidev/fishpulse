@@ -8,7 +8,7 @@ package core
 // After a rapid drop, fish go inactive until pressure stabilises.
 // Different species have different optimal pressure ranges and sensitivity levels.
 func pressureScore(pressureHPa, trendHPa float64, species Species) float64 {
-	base := speciesPressureScore(pressureHPa, species.OptimalPressureMin, species.OptimalPressureMax)
+	base := speciesPressureScore(pressureHPa, species)
 	modifier := speciesTrendModifier(trendHPa, species.PressureSensitivity)
 	score := base * modifier
 	if score > 100 {
@@ -22,7 +22,11 @@ func pressureScore(pressureHPa, trendHPa float64, species Species) float64 {
 
 // speciesPressureScore scores how well the current pressure suits the species.
 // Inside the optimal range = high score; penalty grows with distance from range.
-func speciesPressureScore(hPa, optMin, optMax float64) float64 {
+// For species marked PrefersLowPressure (zander, catfish, burbot), the asymmetry
+// is reversed: high stable pressure is worse than moderately low pressure.
+func speciesPressureScore(hPa float64, species Species) float64 {
+	optMin, optMax := species.OptimalPressureMin, species.OptimalPressureMax
+
 	// Fallback to generic scoring when species has no pressure profile set.
 	if optMin == 0 && optMax == 0 {
 		return genericBasePressureScore(hPa)
@@ -32,9 +36,22 @@ func speciesPressureScore(hPa, optMin, optMax float64) float64 {
 		return 85
 	}
 
-	// Below optimal range (low pressure — bad for most species).
+	// Below optimal range.
 	if hPa < optMin {
 		diff := optMin - hPa
+		if species.PrefersLowPressure {
+			// Slightly low pressure is fine for these species.
+			switch {
+			case diff <= 5:
+				return 80
+			case diff <= 15:
+				return 60
+			case diff <= 25:
+				return 40
+			default:
+				return 20
+			}
+		}
 		switch {
 		case diff <= 5:
 			return 70
@@ -47,8 +64,19 @@ func speciesPressureScore(hPa, optMin, optMax float64) float64 {
 		}
 	}
 
-	// Above optimal range (very high pressure).
+	// Above optimal range.
 	diff := hPa - optMax
+	if species.PrefersLowPressure {
+		// High stable pressure is the killer for zander/catfish/burbot.
+		switch {
+		case diff <= 5:
+			return 55
+		case diff <= 15:
+			return 35
+		default:
+			return 20
+		}
+	}
 	switch {
 	case diff <= 5:
 		return 75

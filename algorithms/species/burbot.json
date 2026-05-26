@@ -3,10 +3,16 @@
   "name_ru": "Налим",
   "name_kz": "Сүйрік",
   "optimal_temp_min": 1,
-  "optimal_temp_max": 10,
+  "optimal_temp_max": 12,
   "optimal_pressure_min": 1005,
   "optimal_pressure_max": 1025,
   "pressure_sensitivity": 0.8,
+  "prefers_low_pressure": true,
+  "time_of_day_preference": "nocturnal",
+  "prefers_overcast": false,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 0.8,
+  "water_body_affinity": "river",
   "season_multipliers": {
     "jan": 1.3,
     "feb": 1.2,
@@ -21,7 +27,13 @@
     "nov": 1.25,
     "dec": 1.3
   },
-  "notes": "Cold-water predator — the only freshwater cod. Spawns under ice in late Dec-Feb, which is its peak bite window. Almost dormant in summer. Best fished at night on the Ishim and Irtysh in late autumn and winter.",
+  "spawn_closure_months": [],
+  "spawn_biological": {
+    "start": "01-05",
+    "end": "02-10",
+    "post_spawn_bonus_days": 5
+  },
+  "notes": "Cold-water predator — the only freshwater cod. Strictly nocturnal. Spawns under ice in mid-winter (Jan-Feb), which paradoxically is its peak feeding window — males stay active. Almost dormant in summer. Best fished at night on the Ishim and Irtysh in late autumn and early winter.",
   "habitat_zones": [
     {
       "name": "Ishim / Northern KZ",

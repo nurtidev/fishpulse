@@ -7,6 +7,12 @@
   "optimal_pressure_min": 1005,
   "optimal_pressure_max": 1022,
   "pressure_sensitivity": 0.9,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "diurnal",
+  "prefers_overcast": false,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 1.0,
+  "water_body_affinity": "any",
   "season_multipliers": {
     "jan": 0.55,
     "feb": 0.6,
@@ -21,7 +27,13 @@
     "nov": 0.7,
     "dec": 0.55
   },
-  "notes": "Schooling cyprinid, abundant in the Ishim River and Akmola lakes. Pre-spawn (Apr) is a major peak. Continues to bite under ice — one of the main ice-fishing targets in Northern Kazakhstan.",
+  "spawn_closure_months": ["may"],
+  "spawn_biological": {
+    "start": "04-15",
+    "end": "05-05",
+    "post_spawn_bonus_days": 10
+  },
+  "notes": "Schooling cyprinid, abundant in the Ishim River and Akmola lakes. Active throughout daylight. Pre-spawn (Apr) is a major peak. Continues to bite under ice — one of the main ice-fishing targets in Northern Kazakhstan.",
   "habitat_zones": [
     {
       "name": "Akmola / Northern KZ lakes",

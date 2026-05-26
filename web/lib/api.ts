@@ -1,4 +1,4 @@
-import type { ForecastResult, SpeciesItem } from "./types";
+import type { ForecastResult, NowAndNextResult, SpeciesItem } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
@@ -10,6 +10,17 @@ export async function fetchBite(
 ): Promise<ForecastResult> {
   const url = `${API_BASE}/api/v1/bite?lat=${lat}&lon=${lon}&species=${species}&lang=${lang}`;
   const res = await fetch(url, { next: { revalidate: 300 } }); // cache 5 min
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  return res.json();
+}
+
+export async function fetchNowAndNext(
+  lat: number,
+  lon: number,
+  lang: string = "ru"
+): Promise<NowAndNextResult> {
+  const url = `${API_BASE}/api/v1/now-and-next?lat=${lat}&lon=${lon}&lang=${lang}`;
+  const res = await fetch(url, { next: { revalidate: 300 } });
   if (!res.ok) throw new Error(`API error ${res.status}`);
   return res.json();
 }

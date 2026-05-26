@@ -7,6 +7,12 @@
   "optimal_pressure_min": 1000,
   "optimal_pressure_max": 1022,
   "pressure_sensitivity": 0.5,
+  "prefers_low_pressure": false,
+  "time_of_day_preference": "crepuscular",
+  "prefers_overcast": false,
+  "prefers_sun": false,
+  "turbidity_sensitivity": 0.5,
+  "water_body_affinity": "lake",
   "season_multipliers": {
     "jan": 0.15,
     "feb": 0.15,
@@ -21,7 +27,13 @@
     "nov": 0.25,
     "dec": 0.15
   },
-  "notes": "Hardy warm-water species. Tolerates low oxygen and shallow weedy lakes — the staple fish of Akmola and Northern Kazakhstan steppe lakes. Peak activity in late spring through summer (May-Aug). Bites best at dawn and dusk in calm warm weather; nearly dormant in winter under ice except for short midwinter feeding spells.",
+  "spawn_closure_months": ["may"],
+  "spawn_biological": {
+    "start": "05-10",
+    "end": "06-10",
+    "post_spawn_bonus_days": 7
+  },
+  "notes": "Hardy warm-water species. Tolerates low oxygen, shallow weedy lakes, and muddy water — the staple fish of Akmola and Northern Kazakhstan steppe lakes. Peak activity in late spring through summer (May-Aug). Bites best at dawn and dusk in calm warm weather; nearly dormant in winter under ice except for short midwinter feeding spells.",
   "habitat_zones": [
     {
       "name": "Akmola / Northern KZ lakes",
